@@ -1,0 +1,3714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Screen/Onboarding Set your defaults</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* filepath: otoki/preview/tokens.css
+   otoki — chat-first three-panel layout
+   LEFT = menu · CENTER = chat (hero) · RIGHT = tools
+
+   ★ THIS FILE IS THE SINGLE SOURCE OF TRUTH ★
+   Every colour / radius / space below mirrors the Figma design system file
+   (3UWgY0vwNW7J28NBQyMylr) exactly. The Figma file is the ARCHIVE; this file
+   is what the app and the mockups actually consume.
+
+   Verify with:  node plugin/check-tokens.mjs
+*/
+
+:root {
+  /* ── surfaces ─────────────────────────────────────── */
+  --bg-app: #0E1116;
+  --bg-surface-1: #0E1116;
+  --bg-surface-2: #171B22;
+  --bg-surface-3: #2A313B;
+  --bg-raised: #252C35;
+  --bg-selected: #202731;
+  --bg-accent-soft: #222831;
+  --bg-track: #262C35;
+  --bg-overlay: rgb(14 17 22 / 60%);
+  --bg-code: #0B0D10;
+
+  /* ── text ─────────────────────────────────────────── */
+  --text-primary: #C9D1DB;
+  --text-secondary: #8E97A5;
+  --text-tertiary: #7F8794;
+  --text-heading: #BAC4D1;
+  --text-inverse: #0E1116;
+
+  /* ── borders ──────────────────────────────────────── */
+  --border-subtle: #171B22;
+  --border-default: #2A313B;
+  --border-strong: #3F4752;
+  --border-control: #414B59;
+
+  /* ── accent ───────────────────────────────────────── */
+  --accent-default: #8FA0C4;
+  --accent-subtle: rgb(143 160 196 / 16%);
+  --accent-text: #8FA0C4;
+  --accent-hover: #7D8DAC;
+  --accent-usage: #98A8BF;
+  --focus-ring: rgb(143 160 196 / 45%);
+
+  /* ── status ───────────────────────────────────────── */
+  --status-idle: #7F8794;
+  --status-queued: #6E7A8C;
+  --status-running: #8FA0C4;
+  --status-thinking: #A78BFA;
+  --status-waiting-approval: #F0B429;
+  --status-paused: #F0B429;
+  --status-stopped: #EF7A70;
+  --status-done: #4FB950;
+  --status-error: #F75149;
+  --status-offline: #6E7A8C;
+  --status-success: #A2BCAE;
+  --status-error-soft: #C39C9E;
+  --status-failed-soft: #BC858B;
+  --status-warning-soft: #B8A079;
+  --status-connected: #8BAA98;
+  --status-success-bg: #18241F;
+  --status-success-border: #334B40;
+  --status-error-bg: #2A1F24;
+  --status-error-border: #67454D;
+
+  /* ── diff ─────────────────────────────────────────── */
+  --diff-added: #4FB950;
+  --diff-removed: #F75149;
+  --diff-modified: #F0B429;
+  --diff-conflict: #DB61A2;
+  --diff-added-bg: #15221E;
+  --diff-removed-bg: #271B20;
+
+  /* ── spacing ──────────────────────────────────────── */
+  --sp-1: 2px;  --sp-2: 4px;  --sp-3: 8px;   --sp-4: 12px;
+  --sp-5: 16px; --sp-6: 20px; --sp-7: 24px;  --sp-8: 32px;
+
+  /* ── radius ───────────────────────────────────────── */
+  --r-sm: 4px; --r-md: 6px; --r-lg: 8px; --r-xl: 12px;
+  --r-2xl: 18px; --r-3xl: 24px; --r-pill: 999px;
+  /* legacy alias — kept so old class names still resolve */
+  --r-full: 999px;
+
+  /* ── type ─────────────────────────────────────────── */
+  /* Lucida Sans Unicode is in the stack so the symbol glyphs
+     (⌘ ↵ ⇧ ↑ ↓) match the Figma file's Inter metrics. */
+  --font-sans: "Inter", "Lucida Sans Unicode", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 22px;
+  -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: var(--font-mono); }
+
+/* ══ BADGES ═══════════════════════════════════════════ */
+.badge {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  height: 22px; padding: 0 var(--sp-3);
+  border-radius: var(--r-full);
+  font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+.badge .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; }
+.badge.idle             { color: var(--status-idle); background: rgb(107 116 128 / 14%); }
+.badge.queued           { color: var(--status-queued); background: rgb(139 149 163 / 14%); }
+.badge.running          { color: var(--status-running); background: var(--accent-subtle); }
+.badge.thinking         { color: var(--status-thinking); background: rgb(167 139 250 / 14%); }
+.badge.waiting-approval { color: var(--status-waiting-approval); background: rgb(240 180 41 / 16%); }
+.badge.paused           { color: var(--status-paused); background: rgb(240 180 41 / 14%); }
+.badge.stopped          { color: var(--status-stopped); background: rgb(249 115 98 / 14%); }
+.badge.done             { color: var(--status-done); background: rgb(63 185 80 / 14%); }
+.badge.error            { color: var(--status-error); background: rgb(248 81 73 / 14%); }
+.badge.offline          { color: var(--status-offline); background: rgb(72 79 88 / 14%); }
+.badge.running .dot,
+.badge.waiting-approval .dot { animation: pulse 2s ease-in-out infinite; }
+.badge.waiting-approval { box-shadow: 0 0 0 2px rgb(240 180 41 / 28%); }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+.spin {
+  width: 12px; height: 12px; flex: none;
+  border: 1.6px solid currentColor; border-top-color: transparent;
+  border-radius: 50%; animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ══ BUTTONS ══════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
+  height: 30px; padding: 0 var(--sp-4);
+  border-radius: var(--r-lg); border: 1px solid transparent;
+  font-family: var(--font-sans); font-size: 12px; font-weight: 500;
+  white-space: nowrap; cursor: default;
+}
+.btn.sm { height: 24px; padding: 0 var(--sp-3); font-size: 11px; }
+.btn.primary   { background: var(--accent-default); color: var(--text-inverse); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.secondary { background: var(--bg-surface-2); color: var(--text-primary); border-color: var(--border-default); }
+.btn.secondary:hover { background: var(--bg-surface-3); }
+.btn.ghost     { background: transparent; color: var(--text-secondary); }
+.btn.ghost:hover { background: var(--bg-surface-2); color: var(--text-primary); }
+.btn.danger    { background: var(--status-error); color: #fff; }
+.btn.link      { background: transparent; color: var(--accent-text); height: auto; padding: 0; }
+.btn:disabled, .btn.disabled { opacity: .4; }
+.btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* ══ TOGGLE ═══════════════════════════════════════════ */
+.toggle { display: inline-flex; padding: 2px; gap: 2px; background: var(--bg-surface-2); border-radius: var(--r-lg); }
+.toggle span { padding: 3px var(--sp-3); border-radius: var(--r-md); font-size: 11px; color: var(--text-tertiary); }
+.toggle span.on { background: var(--bg-surface-3); color: var(--text-primary); }
+
+/* ══ OVERLAYS ═════════════════════════════════════════ */
+.sheet-backdrop { position: absolute; inset: 0; background: var(--bg-overlay); }
+.sheet {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 560px;
+  background: var(--bg-surface-1);
+  border-left: 1px solid var(--border-default);
+  display: flex; flex-direction: column;
+  box-shadow: -24px 0 48px rgb(0 0 0 / 40%);
+}
+.sheet-head {
+  display: flex; align-items: center; gap: var(--sp-3);
+  height: 48px; padding: 0 var(--sp-5);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.sheet-head .title { font-size: 14px; font-weight: 600; }
+.sheet-body { flex: 1; padding: var(--sp-5); overflow: hidden; }
+.sheet-foot {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  border-top: 1px solid var(--border-subtle); background: var(--bg-surface-2);
+}
+.sheet-foot .right { margin-left: auto; display: flex; gap: var(--sp-2); }
+.cmd-box {
+  background: var(--bg-code); border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg); padding: var(--sp-3);
+  font-family: var(--font-mono); font-size: 12px; line-height: 18px;
+  color: var(--text-primary); margin: var(--sp-2) 0;
+}
+.kv { display: flex; gap: var(--sp-4); font-size: 12px; padding: var(--sp-2) 0; }
+.kv .k { color: var(--text-tertiary); width: 96px; flex: none; }
+.kv .v { color: var(--text-secondary); }
+.warn-banner {
+  display: flex; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-lg); background: rgb(240 180 41 / 10%);
+  border: 1px solid rgb(240 180 41 / 26%);
+  font-size: 12px; color: var(--text-secondary); margin-bottom: var(--sp-4);
+}
+.sec-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--text-tertiary);
+  margin: var(--sp-5) 0 var(--sp-2);
+}
+.why {
+  font-size: 12px; line-height: 20px; color: var(--text-secondary);
+  border-left: 2px solid var(--border-default); padding-left: var(--sp-3);
+}
+
+/* ══ DIFF ══════════════════════════════════════════════ */
+.diff-bar {
+  display: flex; align-items: center; gap: var(--sp-3);
+  height: 36px; padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 12px; color: var(--text-secondary);
+}
+.dfile-head {
+  display: flex; align-items: center; gap: var(--sp-2);
+  height: 28px; padding: 0 var(--sp-4);
+  background: var(--bg-surface-2);
+  border-bottom: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--border-subtle);
+}
+.dfile-head .fname { color: var(--text-primary); font-weight: 500; font-size: 11px; }
+.dfile-head .fstat { margin-left: auto; display: flex; gap: var(--sp-2); font-size: 10px; }
+.hunk-head { padding: 3px var(--sp-4); color: var(--text-tertiary); background: var(--bg-surface-1); font-size: 10px; }
+.dline { display: flex; font-family: var(--font-mono); font-size: 11px; line-height: 17px; }
+.dline .gutter { width: 40px; flex: none; text-align: right; padding-right: var(--sp-2); color: var(--text-tertiary); }
+.dline .sign { width: 16px; flex: none; text-align: center; }
+.dline .code { flex: 1; white-space: pre; color: var(--text-secondary); }
+.dline.add { background: rgb(63 185 80 / 12%); }
+.dline.add .sign { color: var(--diff-added); }
+.dline.add .code { color: var(--text-primary); }
+.dline.del { background: rgb(248 81 73 / 12%); }
+.dline.del .sign { color: var(--diff-removed); }
+.dline.del .code { color: var(--text-primary); }
+
+/* ══ LISTS / CARDS / TABLES ═══════════════════════════ */
+.dash { padding: var(--sp-6) var(--sp-7); overflow: hidden; flex: 1; }
+.dash-head { display: flex; align-items: center; margin-bottom: var(--sp-5); }
+.dash-head h1 { font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
+.dash-head .right { margin-left: auto; display: flex; gap: var(--sp-2); }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+.card {
+  border: 1px solid var(--border-subtle); border-radius: var(--r-xl);
+  background: var(--bg-surface-1); padding: var(--sp-4);
+}
+.card.running { border-color: rgb(76 141 255 / 34%); }
+.card.attention { border-color: var(--status-waiting-approval); box-shadow: 0 0 0 1px rgb(240 180 41 / 20%); }
+.card-top { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+.card-name { font-size: 13px; font-weight: 600; }
+.card-meta { font-size: 11px; color: var(--text-tertiary); margin-bottom: var(--sp-3); }
+.card-prev {
+  font-size: 12px; color: var(--text-secondary);
+  padding: var(--sp-2) var(--sp-3); background: var(--bg-surface-2);
+  border-radius: var(--r-md); margin-bottom: var(--sp-3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.card-btns { display: flex; gap: var(--sp-2); }
+.table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.table th {
+  text-align: left; font-weight: 500; color: var(--text-tertiary);
+  font-size: 11px; padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.table td { padding: var(--sp-3); border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary); }
+.table td.name { color: var(--text-primary); }
+.templates { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+.tpl {
+  height: 28px; padding: 0 var(--sp-4);
+  border: 1px dashed var(--border-default); border-radius: var(--r-full);
+  display: inline-flex; align-items: center; font-size: 12px; color: var(--text-secondary);
+}
+
+/* ── generator classes ─────────────────────────────── */
+.sugg-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border: 1px solid var(--border-subtle);
+  border-radius: 12px; background: var(--bg-surface-1);
+  font-size: 13px; color: var(--text-secondary);
+}
+.sugg-row:hover { border-color: var(--border-strong); color: var(--text-primary); }
+.sugg-row svg { color: var(--text-tertiary); flex: none; }
+
+.empty-icon { color: var(--accent-text); }
+.dfile-head .fstat { margin-left: auto; display: flex; gap: 8px; font-size: 10px; }
+.diff-scroll { font-family: var(--font-mono); font-size: 11px; line-height: 17px; }
+.avatar svg { color: inherit; }
+.tool-head svg, .group-label svg, .status svg, .badge svg { flex: none; }
+.tpl, .menu-item, .menu-proj, .tb-item, .file-row, .tool-sec-head, .status,
+.btn, .badge, .chip, .plan-item, .sugg-row {
+  display: flex; align-items: center;
+}
+.badge .dot + svg, .badge svg + .dot { margin: 0 -2px; }
+.plan-item .mark svg { color: var(--text-inverse); }
+.status .badge { gap: 6px; }
+.status .badge .dot { display: none; }
+.new-task svg { opacity: .9; }
+
+/* ── full-page top bar (onboarding / settings / agents) ─── */
+/* The top bar is a row, not a block: brand · separator · page title ·
+   spacer · actions. Without `display: flex` the items stack and the
+   bar's children each take the full width. */
+.page-topbar {
+  height: 52px; flex: none;
+  padding: 0 20px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-app);
+}
+.page-topbar .tb-item {
+  font-size: 13px; font-weight: 400; line-height: 16px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.page-topbar .tb-item.muted { color: var(--text-secondary); }
+.page-topbar .tb-sep {
+  width: 1px; height: 16px; flex: none;
+  background: var(--border-default);
+}
+.page-topbar .tb-spacer { flex: 1; min-width: 0; }
+/* The title text truncates rather than pushing the actions off-screen. */
+.page-topbar .tb-item.trunc {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── extra screens: onboarding / settings / tables ─── */
+.step { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-tertiary); }
+.step.on { color: var(--text-primary); }
+.step.on .step-dot { background: var(--accent-default); border-color: var(--accent-default); color: var(--text-inverse); }
+.step.done .step-dot { background: var(--status-done); border-color: var(--status-done); color: var(--text-inverse); }
+.step-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 600;
+  border: 1px solid var(--border-strong); color: var(--text-tertiary);
+}
+.step-line { width: 28px; height: 1px; background: var(--border-default); }
+.tog { width: 34px; height: 20px; border-radius: 999px; background: var(--bg-surface-3); position: relative; flex: none; }
+.tog.on { background: var(--accent-default); }
+.tog i { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left .15s ease-out; }
+.tog.on i { left: 16px; }
+.rad { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border-strong); display: inline-block; }
+.rad.on { border-color: var(--accent-default); border-width: 5px; }
+.chip { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: var(--r-md); background: var(--bg-surface-3); font-size: 12px; }
+/* ═══════════════════════════════════════════════════════════════
+   otoki — SHELL (new agent direction)
+   Exact geometry from Figma: docs/SHELL-SPEC.md
+   Shell 1440×860 · menu 236 flush · inset workspace 1186×774 r18
+   · chat 740 · tools 446 · TitleBar 996×42 r100 @248,5
+   · StatusBar 1428×20 @6,833
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── the canvas ────────────────────────────────────────────── */
+.app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  background: var(--bg-app);
+  overflow: hidden;
+}
+
+/* ── sidebar divider: 1px at x241, 835 tall ───────────────── */
+.sidebar-divider {
+  position: absolute;
+  left: 241px; top: -1px; bottom: 26px;
+  width: 1px;
+  background: var(--bg-surface-2);
+}
+
+/* ── cloud divider: 1px at x6, y833 ───────────────────────── */
+.cloud-divider {
+  position: absolute;
+  left: 6px; right: 6px; bottom: 26px;
+  height: 1px;
+  background: var(--bg-surface-2);
+}
+
+/* ══ TITLE BAR — floating pill, 996×42, r100, x248 y5 ═════ */
+.titlebar {
+  position: absolute;
+  /* Spans the workspace, not a fixed 996px. */
+  left: 248px; right: 6px; top: 5px;
+  height: 42px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-pill);
+}
+.titlebar .identity {
+  display: flex; align-items: center; gap: 10px;
+}
+.titlebar .identity .glyph { width: 14px; height: 14px; color: var(--text-secondary); }
+.titlebar .identity .chev { width: 12px; height: 12px; color: var(--text-secondary); }
+.titlebar .project {
+  font-size: 12px; line-height: 15px; font-weight: 400; color: var(--text-primary);
+}
+.titlebar .sep {
+  width: 1px; height: 16px; background: var(--bg-surface-2);
+}
+.titlebar .branch {
+  display: flex; align-items: center; gap: 8px;
+}
+.titlebar .branch .glyph { width: 13px; height: 13px; color: var(--text-secondary); }
+.titlebar .branch .name {
+  font-family: var(--font-mono);
+  font-size: 11px; line-height: 14px; font-weight: 400; color: var(--text-secondary);
+}
+.titlebar .controls {
+  display: flex; align-items: center; gap: 16px;
+}
+.titlebar .controls .glyph { width: 15px; height: 15px; color: var(--text-secondary); }
+.titlebar .profile {
+  width: 24px; height: 24px;
+  display: grid; place-items: center;
+  border-radius: var(--r-pill);
+  background: var(--bg-surface-2);
+  font-size: 10px; color: var(--text-secondary);
+}
+
+/* ══ LEFT MENU — 236×766 at x0 y61, flat conversation list ═ */
+.menu {
+  position: absolute;
+  left: 0; top: 61px; bottom: 27px;
+  width: 236px;
+  padding: 18px 16px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--bg-app);
+  overflow: hidden;
+}
+.menu .nav { display: flex; flex-direction: column; gap: 28px; }
+
+.menu .new-chat {
+  height: 36px; padding: 0 12px;
+  display: flex; align-items: center; gap: 10px;
+  border-radius: var(--r-lg);
+  background: var(--bg-surface-2);
+  font-size: 12px; font-weight: 500; color: var(--text-primary);
+}
+.menu .new-chat .glyph { width: 14px; height: 14px; color: var(--text-secondary); }
+.menu .new-chat .shortcut {
+  margin-left: auto;
+  font-size: 10px; font-weight: 400; color: var(--text-tertiary);
+}
+
+.menu .group { display: flex; flex-direction: column; gap: 8px; }
+.menu .group-label {
+  font-size: 10px; line-height: 12px; font-weight: 500; color: var(--text-tertiary);
+}
+.menu .conv {
+  height: 36px; padding: 0 10px;
+  display: flex; align-items: center; gap: 9px;
+  border-radius: var(--r-md);
+  font-size: 12px; font-weight: 400; color: var(--text-primary);
+}
+.menu .conv .glyph { width: 13px; height: 13px; flex: none; color: var(--text-primary); }
+/* Inactive conversations in the agent's file used a non-token blue-grey
+   icon colour and pure-black fills. Both corrected to real tokens here. */
+.menu .conv.idle { background: transparent; color: var(--text-tertiary); }
+.menu .conv.idle .glyph { color: var(--text-tertiary); }
+.menu .conv.selected { background: var(--bg-surface-2); color: var(--text-primary); }
+.menu .conv .title {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.menu .connection {
+  display: flex; align-items: center; gap: 8px; padding: 0 10px;
+  font-size: 11px; line-height: 13px; color: var(--text-tertiary);
+  width: fit-content;
+}
+.menu .connection span { white-space: nowrap; }
+.menu .connection .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--text-tertiary);
+}
+
+/* ══ INSET WORKSPACE — 1186×774 r18 at x248 y53 ═══════════ */
+.workspace {
+  position: absolute;
+  /* The workspace is inset from the menu and the chrome. The insets are
+     fluid so the shell works at any size; the 248/53/1186/774 numbers
+     are what it measures at the 1440×860 design size. */
+  inset: 53px 6px 27px 248px;
+  display: grid;
+  /* The chat column takes what is left; the tools column is a fixed
+     rail. At the design size this is exactly 740 / 446. */
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 446px);
+  background: var(--bg-app);
+  /* Figma's strokeAlign is INSIDE — a CSS border would steal 2px from the
+     grid and the columns would be 772 instead of 774. Inset ring instead. */
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  border-radius: var(--r-2xl);
+  overflow: hidden;
+}
+.workspace .chat-col {
+  min-width: 0;
+  display: flex; flex-direction: column;
+  /* the 1px divider between the columns is also INSIDE in Figma */
+  box-shadow: inset -1px 0 0 0 var(--border-default);
+  overflow: hidden;
+}
+.workspace .tools-col {
+  min-width: 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+/* ══ RESPONSIVE — the shell has to survive any window size ══
+   The design was drawn at 1440×860, but the app runs in a browser.
+   The menu narrows, then the tools rail minimises to an icon strip,
+   so nothing ever spills outside the viewport.
+   (These rules live at the END of this file so they win over the
+   base rules they override.) */
+
+/* ══ SESSION TABS — 740×48, conversation tabs ══════════════ */
+.session-tabs {
+  height: 48px; flex: none;
+  padding: 0 24px;
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg-surface-2);
+  border-bottom: 1px solid var(--border-default);
+}
+.session-tabs .tabs { display: flex; align-items: center; gap: 6px; }
+.session-tabs .tab {
+  height: 36px; padding: 8px 12px;
+  display: flex; align-items: center; gap: 8px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  /* Figma's strokeAlign is INSIDE — a CSS border would add 2px to the
+     tab's width (137 → 139). Inset ring instead. */
+  box-shadow: inset 0 1px 0 0 var(--border-default),
+              inset 1px 0 0 0 var(--border-default),
+              inset -1px 0 0 0 var(--border-default);
+  background: var(--bg-app);
+  font-size: 12px; font-weight: 400; color: var(--text-secondary);
+}
+.session-tabs .tab.active {
+  background: var(--bg-surface-2);
+  color: var(--text-primary); font-weight: 500;
+}
+.session-tabs .more {
+  width: 16px; height: 16px; margin-left: 4px;
+  color: var(--text-secondary);
+}
+
+/* ══ PAGE BAR — 446×52, underline tabs ════════════════════ */
+.page-bar {
+  height: 52px; flex: none;
+  padding: 0 20px;
+  display: flex; align-items: center; gap: 24px;
+  border-bottom: 1px solid var(--bg-surface-2);
+}
+.page-bar .tab {
+  height: 52px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  font-size: 12px; font-weight: 400; color: var(--text-tertiary);
+}
+/* The icon only appears when the panel minimises to a rail (below 980px);
+   while the panel is open the underline tab is the label. */
+.page-bar .tab .tab-icon { display: none; }
+/* Figma sizes the page tabs explicitly: Changes 51 · Terminal 49 · Preview 45.
+   The browser's Inter is 1px narrower, so the widths are pinned. */
+.page-bar .tab .label { white-space: nowrap; }
+.page-bar .tab.active { color: var(--text-primary); }
+.page-bar .tab .indicator {
+  width: 48px; height: 2px; margin-top: auto;
+  background: var(--text-tertiary);
+}
+
+/* ══ COMPOSER — 676×112, r24 ═════════════════════════════ */
+.composer-wrap {
+  flex: none;
+  display: flex; justify-content: center;
+  padding: 0 0 14px;
+}
+.composer {
+  width: 100%; max-width: 676px; height: 112px;
+  padding: 14px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-3xl);
+}
+.composer .placeholder {
+  font-size: 13px; line-height: 16px; font-weight: 400; color: var(--text-tertiary);
+  /* The placeholder must never push the composer wider than the column. */
+  min-width: 0; max-width: 100%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.composer .controls {
+  height: 26px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.composer .options { display: flex; align-items: center; gap: 12px; }
+.composer .options .glyph { width: 15px; height: 15px; color: var(--text-secondary); }
+.composer .options .chev { width: 10px; height: 10px; color: var(--text-secondary); }
+.composer .options .mode {
+  font-size: 11px; font-weight: 400; color: var(--text-secondary);
+}
+.composer .send {
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-3);
+}
+.composer .send .glyph { width: 14px; height: 14px; color: var(--bg-surface-2); }
+
+/* ══ STATUS BAR — 1428×20 at x6 y833 ══════════════════════ */
+.status {
+  position: absolute;
+  left: 6px; right: 6px; bottom: 6px;
+  height: 20px;
+  padding: 3px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-app);
+  border-top: 1px solid var(--bg-surface-2);
+  font-size: 11px; line-height: 13px; color: var(--text-tertiary);
+  overflow: hidden;
+}
+.status .group { display: flex; align-items: center; gap: 10px; }
+.status .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--status-queued);
+}
+.status .label { font-weight: 500; color: var(--text-primary); white-space: nowrap; }
+.status .note { font-weight: 400; color: var(--text-tertiary); white-space: nowrap; }
+.status .ssh-label { font-weight: 500; color: var(--text-primary); }
+.status .ssh-host {
+  font-family: var(--font-mono);
+  font-weight: 400; color: var(--text-secondary);
+  line-height: 14px;}
+
+/* ══ WINDOW CONTROLS — 40×8 at x20 y29 (decorative) ═══════ */
+.window-controls {
+  position: absolute;
+  left: 20px; top: 29px;
+  width: 40px; height: 8px;
+  display: flex; gap: 6px;
+}
+.window-controls i {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--bg-surface-3);
+}
+
+/* ══ CHAT COLUMN — 740 wide, flex column ════════════════ */
+.chat-body {
+  flex: 1;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+/* ══ COMPOSER SLOT — holds goal/steer above the composer ══ */
+.composer-slot {
+  flex: none;
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 0 0 14px;
+}
+.composer-slot .goal,
+.composer-slot .steer {
+  width: 100%; max-width: 676px;
+  box-sizing: border-box;
+}
+.composer {
+  width: 100%; max-width: 676px; height: 112px;
+  padding: 14px;
+  box-sizing: border-box;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-3xl);
+}
+.composer-slot .goal {
+  border: 1px solid var(--border-default);
+  border-radius: var(--r-xl);
+  background: var(--bg-surface-2);
+  padding: 10px 14px;
+}
+.composer-slot .goal-head {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 500; margin-bottom: 3px;
+}
+.composer-slot .goal-val { font-weight: 400; color: var(--text-secondary); }
+.composer-slot .goal-meta { font-size: 11px; color: var(--text-tertiary); }
+.composer-slot .steer {
+  border: 1px solid var(--border-default);
+  border-left: 2px solid var(--status-stopped);
+  border-radius: var(--r-xl);
+  background: var(--bg-surface-2);
+  padding: 10px 14px;
+}
+.composer-slot .steer-row { display: flex; align-items: center; gap: 10px; }
+.composer-slot .steer-icon { color: var(--status-stopped); display: flex; }
+.composer-slot .steer-text { font-size: 12px; color: var(--text-primary); }
+.composer-slot .steer-actions { margin-left: auto; display: flex; gap: 6px; }
+
+/* ══ TOOLS BODY — under the PageBar ════════════════════ */
+.tools-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+/* ══ STREAM — chat content column ════════════════════════
+   The chat column is 740 wide. The content column inside it is
+   676 wide (matching the composer), centred. */
+.stream {
+  flex: 1;
+  /* The chat scrolls. Without this the last message is clipped by the
+     composer instead of being scrollable into view. */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--sp-6) 0 var(--sp-4);
+  display: flex; flex-direction: column;
+}
+.stream::-webkit-scrollbar { width: 8px; }
+.stream::-webkit-scrollbar-track { background: transparent; }
+.stream::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: var(--r-pill);
+}
+.stream::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+.stream-inner {
+  width: 100%; max-width: 676px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: var(--sp-5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — the shell has to survive any window size.
+   The design was drawn at 1440×860, but the app runs in a browser.
+   The menu narrows, then the tools rail minimises to an icon strip,
+   so nothing ever spills outside the viewport.
+
+   These live at the END of the sheet so they win over the base
+   rules they override.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Below 1200 the tools rail gets tighter before it minimises. */
+@media (max-width: 1200px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  }
+  .menu { width: 200px; }
+  .workspace { inset: 53px 6px 27px 212px; }
+  .sidebar-divider { left: 205px; }
+  .titlebar { left: 212px; }
+}
+
+/* Below 980 the tools rail minimises to a narrow icon strip. It must NOT
+   stack under the chat — the right panel stays on the right; it collapses
+   to the tab icons so the chat keeps the full width. */
+@media (max-width: 980px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr) 56px;
+  }
+  .workspace .chat-col {
+    box-shadow: none;
+  }
+  .workspace .tools-col {
+    border-left: 1px solid var(--border-default);
+  }
+  /* The page bar becomes a vertical strip of icons — the labels are gone. */
+  .page-bar {
+    height: auto; flex: 1;
+    flex-direction: column; align-items: stretch;
+    gap: 4px; padding: 12px 0;
+    border-bottom: none;
+  }
+  .page-bar .tab {
+    position: relative;
+    width: 100%; height: 36px;
+    flex-direction: row;
+    align-items: center; justify-content: center;
+    border-radius: var(--r-md);
+  }
+  .page-bar .tab:hover { background: var(--bg-surface-2); }
+  .page-bar .tab .label { display: none; }
+  /* The active marker is a hairline on the rail's own right edge. */
+  .page-bar .tab .indicator {
+    width: 2px; height: 36px; margin: 0;
+    position: absolute; right: 0;
+    background: var(--accent-default);
+  }
+  .page-bar .tab .tab-icon {
+    display: block;
+    color: var(--text-tertiary);
+  }
+  .page-bar .tab.active .tab-icon { color: var(--text-primary); }
+  /* The panel body is gone — the rail is only the tabs. */
+  .workspace .tools-body { display: none; }
+}
+
+/* Below 760 the menu becomes a narrow icon rail. */
+@media (max-width: 760px) {
+  .menu { width: 56px; padding: 18px 10px; }
+  .menu .nav { gap: 20px; }
+  .workspace { inset: 53px 6px 27px 68px; }
+  .sidebar-divider { left: 61px; }
+  .titlebar { left: 68px; padding: 0 14px; }
+  .titlebar .project,
+  .titlebar .sep,
+  .titlebar .branch { display: none; }
+}
+/* ═══════════════════════════════════════════════════════════════
+   otoki — CHAT COMPONENTS (board 05)
+   Exact geometry from Figma — see docs/CHAT-SPEC.md
+   MessageBubble/User 676×156 · MessageBubble/Assistant 676×194
+   ActivityChip 32 tall · ToolCard 676×194
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ══ MESSAGE BUBBLE ══════════════════════════════════════ */
+.bubble {
+  width: 100%; max-width: 676px;
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 16px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border-default);
+}
+.bubble.user {
+  background: var(--bg-surface-2);
+}
+.bubble.assistant {
+  background: var(--bg-app);
+}
+
+/* ── identity row ──────────────────────────────────────── */
+.bubble .identity {
+  display: flex; align-items: center; gap: 8px;
+}
+.bubble .identity .glyph { width: 14px; height: 14px; color: var(--text-secondary); }
+.bubble .identity .speaker {
+  font-size: 12px; font-weight: 500; color: var(--text-primary);
+  line-height: 15px;
+}
+.bubble .identity .timestamp {
+  font-size: 10px; font-weight: 400; color: var(--text-tertiary);
+  line-height: 12px;
+}
+
+/* ── body text ──────────────────────────────────────────── */
+.bubble .text {
+  font-size: 14px; font-weight: 400; line-height: 1.65;
+  color: var(--text-primary);
+}
+.bubble.assistant .text { color: var(--text-secondary); }
+
+/* ── validation line (assistant only) ───────────────────── */
+.bubble .validation {
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-secondary);
+}
+
+/* ── divider ────────────────────────────────────────────── */
+.bubble .divider {
+  width: 100%; height: 1px;
+  background: var(--border-default);
+}
+
+/* ── footer ─────────────────────────────────────────────── */
+.bubble .footer {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.bubble .meta {
+  font-size: 11px; font-weight: 400; color: var(--text-tertiary);
+  line-height: 13px;
+}
+.bubble .actions { display: flex; align-items: center; gap: 16px; }
+.bubble .action {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 400; color: var(--text-secondary);
+  line-height: 13px;
+}
+.bubble .action .glyph { width: 12px; height: 12px; }
+
+/* ── attached context chips ─────────────────────────────── */
+.bubble .context-row { display: flex; align-items: center; gap: 8px; }
+.bubble .context-chip {
+  height: 23px; padding: 5px 8px;
+  display: flex; align-items: center; gap: 6px;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  font-size: 11px; font-weight: 400; color: var(--text-secondary);
+  line-height: 13px;
+}
+.bubble .context-chip .glyph { width: 12px; height: 12px; color: var(--text-secondary); }
+
+/* ══ ACTIVITY CHIP ═══════════════════════════════════════ */
+.activity-chip {
+  height: 32px; padding: 0 10px;
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+}
+.activity-chip .glyph { width: 12px; height: 12px; flex: none; }
+.activity-chip .activity {
+  font-size: 11px; font-weight: 400; color: var(--text-primary);
+  line-height: 13px;
+}
+.activity-chip .detail {
+  font-size: 10px; font-weight: 400; color: var(--text-tertiary);
+  line-height: 12px;
+}
+.activity-chip.running .glyph { color: var(--text-secondary); }
+.activity-chip.complete .glyph { color: var(--status-success); }
+.activity-chip.approval .glyph { color: var(--status-warning-soft); }
+
+/* running spinner */
+.activity-chip.running .glyph,
+.tool-card .status .glyph.spin {
+  animation: otoki-spin 1s linear infinite;
+}
+@keyframes otoki-spin { to { transform: rotate(360deg); } }
+
+/* ══ TOOL CARD ════════════════════════════════════════════ */
+.tool-card {
+  width: 100%; max-width: 676px;
+  display: flex; flex-direction: column;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-default);
+  background: var(--bg-app);
+  overflow: hidden;
+}
+.tool-card .heading {
+  height: 47px; padding: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.tool-card .heading .tool-glyph { width: 14px; height: 14px; color: var(--text-secondary); }
+.tool-card .identity {
+  font-size: 12px; font-weight: 500; color: var(--text-primary);
+  line-height: 15px;
+}
+.tool-card .status {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 6px;
+}
+.tool-card .status .glyph { width: 12px; height: 12px; flex: none; }
+.tool-card .status .state {
+  font-size: 11px; font-weight: 400; color: var(--text-secondary);
+  line-height: 13px;
+}
+.tool-card.running .status .state { color: var(--text-secondary); }
+.tool-card.success .status .glyph { color: var(--status-success); }
+.tool-card.success .status .state { color: var(--status-success); }
+.tool-card.error   .status .glyph { color: var(--status-error-soft); }
+.tool-card.error   .status .state { color: var(--status-error-soft); }
+
+.tool-card .divider {
+  width: 100%; height: 1px;
+  background: var(--border-default);
+}
+
+.tool-card .inputs {
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--bg-surface-2);
+}
+.tool-card .cwd {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; color: var(--text-tertiary);
+  line-height: 13px;
+}
+.tool-card .command {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 400; line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.tool-card .output {
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.tool-card .output-text {
+  font-size: 12px; font-weight: 400; line-height: 1.6;
+  color: var(--text-secondary);
+}
+.tool-card .details {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tool-card .feedback {
+  font-size: 10px; font-weight: 400; color: var(--text-tertiary);
+  line-height: 12px;
+}
+.tool-card .duration {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; color: var(--text-tertiary);
+  line-height: 13px;
+}
+.tool-card.error .feedback { color: var(--status-error-soft); }
+
+/* ── spacing between chat items ───────────────────────────── */
+.chat-gap { display: flex; align-items: center; }
+
+/* ── failed send ──────────────────────────────────────────── */
+.bubble.user.failed {
+  opacity: .6;
+  border-color: var(--status-error);
+}
+/* ═══════════════════════════════════════════════════════════════
+   otoki — TOOLS PANELS (board 03)
+   Exact geometry from Figma — see docs/TOOLS-SPEC.md
+   PlanPanel 446×598 · Timeline 446×656 · AgentGrid 918×364
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ══ SHARED PANEL CHROME ══════════════════════════════════ */
+.tool-panel {
+  display: flex; flex-direction: column;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-default);
+  background: var(--bg-app);
+  overflow: hidden;
+}
+.tool-panel .panel-header {
+  min-height: 79px; padding: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tool-panel .panel-heading {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.tool-panel .panel-title {
+  font-size: 13px; font-weight: 500; line-height: 1.5;
+  color: var(--text-primary);
+}
+.tool-panel .panel-sub {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.tool-panel .status-badge {
+  height: 21px; padding: 3px 7px;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+.tool-panel .divider {
+  width: 100%; height: 1px;
+  background: var(--border-default);
+}
+.tool-panel .panel-footer {
+  min-height: 47px; padding: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.tool-panel .panel-footer .glyph { width: 12px; height: 12px; color: var(--text-secondary); }
+.tool-panel .panel-footer .note {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+
+/* ══ PROGRESS ══════════════════════════════════════════════ */
+.progress-summary {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.progress-summary .count {
+  font-size: 11px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+.progress-summary .pct {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.progress-track {
+  width: 100%; height: 3px;
+  border-radius: var(--r-sm);
+  background: var(--border-default);
+  overflow: hidden;
+}
+.progress-track i {
+  display: block; height: 100%;
+  border-radius: var(--r-sm);
+  background: var(--text-tertiary);
+}
+
+/* ══ PLAN PANEL ═══════════════════════════════════════════ */
+/* The panel is FILL, not FIXED — it has to fit whatever width the
+   tools column is (446 at the design size, less when the rail narrows). */
+.plan-panel { width: 100%; max-width: 446px; }
+.plan-panel .plan-progress {
+  padding: 16px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.plan-panel .task-list {
+  padding: 0 20px 8px;
+  display: flex; flex-direction: column;
+}
+.plan-step {
+  min-height: 80px; padding: 12px 0;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.plan-step .step-status {
+  width: 18px; height: 18px; flex: none;
+  display: grid; place-items: center;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--bg-surface-2);
+}
+.plan-step .step-status .glyph { width: 12px; height: 12px; color: var(--text-secondary); }
+.plan-step.pending .step-status { border-color: var(--border-default); }
+.plan-step .step-details {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.plan-step .step-title {
+  font-size: 12px; font-weight: 500; line-height: 1.5;
+  color: var(--text-primary);
+}
+.plan-step .step-detail {
+  font-size: 11px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+.plan-step .step-meta {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+
+/* ══ TIMELINE ══════════════════════════════════════════════ */
+.timeline { width: 100%; max-width: 446px; }
+.timeline .chronology {
+  padding: 20px;
+  display: flex; flex-direction: column;
+}
+.tool-event {
+  min-height: 112px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.tool-event .rail {
+  width: 16px; flex: none; align-self: stretch;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.tool-event .rail .glyph { width: 12px; height: 12px; color: var(--text-secondary); }
+.tool-event .rail .connector {
+  width: 1px; flex: 1;
+  background: var(--border-default);
+}
+.tool-event .event-details {
+  flex: 1; min-width: 0;
+  padding-bottom: 20px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.tool-event .event-meta {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tool-event .event-time {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.tool-event .event-dur {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.tool-event .event-title {
+  font-size: 12px; font-weight: 500; line-height: 1.5;
+  color: var(--text-primary);
+}
+.tool-event .tool-call {
+  display: flex; align-items: center; gap: 7px;
+}
+.tool-event .tool-call .fn {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+.tool-event .tool-call .args {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.tool-event .event-result {
+  font-size: 11px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* review checkpoint */
+.review-checkpoint {
+  min-height: 40px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.review-checkpoint .glyph { width: 16px; height: 16px; color: var(--text-secondary); flex: none; }
+.review-checkpoint .checkpoint-details {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.review-checkpoint .checkpoint-title {
+  font-size: 12px; font-weight: 500; line-height: 1.5;
+  color: var(--text-primary);
+}
+.review-checkpoint .checkpoint-sub {
+  font-size: 11px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ══ AGENT GRID ════════════════════════════════════════════ */
+/* The 3-across roster needs 918px, so the default is the stacked
+   1-per-row variant. The cards are fluid inside it. */
+.agent-grid { width: 100%; max-width: 918px; }
+.agent-grid .roster {
+  padding: 20px;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+/* Stacked variant — for the 446-wide tools column. The 3-across roster
+   needs 918px; in a 446 column the cards go one per row. */
+.agent-grid.stacked { width: 100%; max-width: 446px; }
+.agent-grid.stacked .roster {
+  flex-direction: column;
+  gap: 12px;
+}
+.agent-grid.stacked .agent-card { width: 100%; }
+.agent-card {
+  width: 282px; max-width: 100%;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-default);
+}
+.agent-card .agent-identity {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.agent-card .agent-icon { width: 16px; height: 16px; color: var(--text-secondary); }
+.agent-card .agent-role {
+  display: flex; flex-direction: column; gap: 3px;
+}
+.agent-card .role-kind {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.agent-card .role-name {
+  font-size: 13px; font-weight: 500; line-height: 1.5;
+  color: var(--text-primary);
+}
+.agent-card .agent-output {
+  display: flex; flex-direction: column; gap: 7px;
+}
+.agent-card .output-file {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+.agent-card .output-text {
+  font-size: 11px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+.agent-card .agent-progress {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.agent-card .completion {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.agent-card .completion span {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.agent-grid .coordination {
+  min-height: 45px; padding: 14px 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.agent-grid .coordination .glyph { width: 12px; height: 12px; color: var(--text-secondary); }
+.agent-grid .coordination .note {
+  font-size: 11px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+.agent-grid .coordination .tail {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+/* ═══════════════════════════════════════════════════════════════
+   otoki — DIFF / REVIEW (board 07)
+   Exact geometry from Figma — see docs/DIFF-SPEC.md
+   DiffPanel 918×1041 · DiffReview 918×995
+
+   The code column is the ONLY flexible part:
+     gutters 36 + 36 + 28 = 100 (fixed)
+     source code          = 1fr  (818 at 918 wide, 306 at 446 wide)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ══ DIFF PANEL — the whole surface ═══════════════════════ */
+.diff-panel {
+  display: flex; flex-direction: column;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-default);
+  background: var(--bg-app);
+  overflow: hidden;
+}
+
+/* ── file navigation ─────────────────────────────────────── */
+.diff-panel .file-nav {
+  height: 46px; padding: 0 20px;
+  display: flex; align-items: center; gap: 24px;
+  background: var(--bg-surface-2);
+}
+.diff-panel .file-nav .current {
+  display: flex; align-items: center; gap: 8px;
+}
+.diff-panel .file-nav .current .glyph { width: 14px; height: 14px; color: var(--text-secondary); }
+.diff-panel .file-nav .current .name {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; color: var(--text-primary);
+}
+.diff-panel .file-nav .current .pos {
+  font-size: 11px; font-weight: 400; color: var(--text-tertiary);
+}
+.diff-panel .file-nav .next {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; color: var(--text-secondary);
+}
+.diff-panel .file-nav .project {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 12px;
+}
+.diff-panel .file-nav .project .ctx {
+  font-size: 11px; font-weight: 400; color: var(--text-secondary);
+}
+.diff-panel .file-nav .project .glyph { width: 14px; height: 14px; color: var(--text-secondary); }
+
+/* ══ DIFF REVIEW ══════════════════════════════════════════ */
+.diff-review {
+  display: flex; flex-direction: column;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-default);
+  background: var(--bg-app);
+  overflow: hidden;
+  min-height: 0;              /* allow the scroll child to shrink */
+}
+/* The Figma DiffReview is 995 tall. In the 446 tools column only 722 is
+   available, so the file content scrolls and the header/validation/footer
+   stay pinned — the gutters, row height and colours are unchanged. */
+.diff-review .diff-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+/* ── review header ───────────────────────────────────────── */
+.diff-review .review-header {
+  min-height: 79px; padding: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.diff-review .review-identity {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.diff-review .review-title {
+  font-size: 13px; font-weight: 500; line-height: 1.5;
+  color: var(--text-primary);
+}
+.diff-review .review-sub {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.diff-review .change-totals {
+  display: flex; align-items: center; gap: 12px;
+}
+.diff-review .change-totals .files {
+  font-size: 11px; font-weight: 400; color: var(--text-primary);
+}
+.diff-review .change-totals .add,
+.diff-review .change-totals .del {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400;
+}
+.diff-review .change-totals .add { color: var(--status-success); }
+.diff-review .change-totals .del { color: var(--status-error-soft); }
+
+.diff-review .divider {
+  width: 100%; height: 1px;
+  background: var(--border-default);
+}
+
+/* ── file header ─────────────────────────────────────────── */
+.diff-review .file-header {
+  height: 40px; padding: 0 16px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-surface-2);
+}
+.diff-review .file-header .chev { width: 12px; height: 12px; color: var(--text-secondary); flex: none; }
+.diff-review .file-header .file-glyph { width: 14px; height: 14px; color: var(--text-secondary); flex: none; }
+.diff-review .file-header .path {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 1.5;
+  color: var(--text-primary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.diff-review .file-header .stat {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+  flex: none;
+}
+.diff-review .file-header .status-badge {
+  height: 21px; padding: 3px 7px; flex: none;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ── hunk header ─────────────────────────────────────────── */
+.diff-review .hunk-header {
+  height: 28px; padding: 0 16px;
+  display: flex; align-items: center;
+}
+.diff-review .hunk-header .range {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* ── code lines ──────────────────────────────────────────── */
+.diff-review .code-line {
+  height: 18px;
+  display: flex; align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400;
+}
+.diff-review .code-line .ln {
+  width: 36px; flex: none;
+  text-align: right; padding-right: 8px;
+  color: var(--text-tertiary);
+}
+.diff-review .code-line .marker {
+  width: 28px; flex: none;
+  text-align: center;
+}
+.diff-review .code-line .src {
+  flex: 1; min-width: 0;
+  white-space: pre;
+  overflow: hidden;
+}
+
+/* line states */
+.diff-review .code-line.ctx { background: var(--bg-app); }
+.diff-review .code-line.ctx .src { color: var(--text-secondary); }
+.diff-review .code-line.ctx .marker { color: var(--text-secondary); }
+
+.diff-review .code-line.del { background: var(--diff-removed-bg); }
+.diff-review .code-line.del .src { color: var(--status-error-soft); }
+.diff-review .code-line.del .marker { color: var(--status-error-soft); }
+
+.diff-review .code-line.add { background: var(--diff-added-bg); }
+.diff-review .code-line.add .src { color: var(--status-success); }
+.diff-review .code-line.add .marker { color: var(--status-success); }
+
+/* ── validation result ───────────────────────────────────── */
+.diff-review .validation {
+  min-height: 41px; padding: 12px 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.diff-review .validation .glyph { width: 14px; height: 14px; color: var(--text-secondary); flex: none; }
+.diff-review .validation .result {
+  font-size: 11px; font-weight: 400; line-height: 1.5;
+  color: var(--text-secondary);
+}
+.diff-review .validation .sep {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.diff-review .validation .tail {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+
+/* ── review actions ──────────────────────────────────────── */
+.diff-review .review-actions {
+  min-height: 52px; padding: 0 20px 18px;
+  display: flex; align-items: center;
+}
+.diff-review .accepted {
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-tertiary);
+}
+.diff-review .decisions {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 8px;
+}
+.diff-review .decision {
+  height: 34px; padding: 0 12px;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+  font-size: 12px; font-weight: 500; line-height: 1.5;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.diff-review .decision.primary {
+  background: var(--bg-surface-3);
+  border-color: var(--text-tertiary);
+}
+/* ═══════════════════════════════════════════════════════════════
+   otoki — CORE PRIMITIVES (board 13)
+   Exact geometry from Figma — see docs/PRIMITIVES-SPEC.md
+   Button 36 tall · IconButton 36×36 · Input 326×86 · Chip 24 tall
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ══ BUTTON ════════════════════════════════════════════════ */
+.btn {
+  height: 36px; padding: 0 12px;
+  display: inline-flex; align-items: center; gap: 10px;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.btn .glyph { width: 14px; height: 14px; flex: none; }
+
+.btn.primary {
+  background: var(--bg-raised);
+  border-color: var(--text-secondary);
+}
+.btn.secondary {
+  background: var(--bg-app);
+  border-color: var(--border-default);
+}
+.btn.ghost {
+  background: var(--bg-app);
+  border-color: transparent;
+}
+.btn.destructive {
+  background: var(--bg-raised);
+  border-color: var(--status-error-soft);
+  color: var(--status-error-soft);
+}
+.btn.disabled {
+  background: var(--bg-surface-2);
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+.btn.loading {
+  background: var(--bg-raised);
+  border-color: var(--text-secondary);
+}
+.btn.loading .spinner {
+  width: 14px; height: 14px; flex: none;
+  border: 1.5px solid var(--text-primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: otoki-spin 1s linear infinite;
+}
+
+/* count badge */
+.btn .count-badge {
+  width: 20px; height: 20px; flex: none;
+  display: grid; place-items: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  font-size: 10px; font-weight: 400; line-height: 1.5;
+  color: var(--text-primary);
+}
+
+/* ══ ICON BUTTON ═══════════════════════════════════════════ */
+.icon-btn {
+  width: 36px; height: 36px; flex: none;
+  position: relative;
+  display: grid; place-items: center;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+}
+.icon-btn .glyph { width: 16px; height: 16px; }
+
+.icon-btn.selected {
+  background: var(--bg-raised);
+  border-color: var(--accent-default);
+}
+.icon-btn.selected .indicator {
+  position: absolute;
+  left: 50%; bottom: 5px;
+  width: 8px; height: 2px;
+  transform: translateX(-50%);
+  border-radius: var(--r-sm);
+  background: var(--accent-default);
+}
+.icon-btn.disabled {
+  background: var(--bg-surface-2);
+  color: var(--text-secondary);
+}
+
+/* ══ INPUT ═════════════════════════════════════════════════ */
+.input {
+  width: 326px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.input .input-label {
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+}
+.input .field {
+  height: 38px; padding: 0 12px;
+  display: flex; align-items: center; gap: 2px;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+}
+.input .field .value {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 400; line-height: 16px;
+  color: var(--text-primary);
+}
+.input .field .affix {
+  display: flex; align-items: center;
+  flex: none;
+  margin-left: auto;
+}
+.input .field .affix .glyph { width: 13px; height: 13px; }
+.input .field .caret {
+  width: 1px; height: 16px; flex: none;
+  background: var(--text-primary);
+}
+.input .guidance {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-secondary);
+}
+
+.input.focused .field { border-color: var(--accent-default); border-width: 2px; }
+.input.error .field   { border-color: var(--status-error-soft); }
+.input.error .guidance { color: var(--status-error-soft); }
+.input.disabled .field { background: var(--bg-surface-2); }
+.input.disabled .input-label,
+.input.disabled .field .value,
+.input.disabled .guidance { color: var(--text-secondary); }
+
+/* ══ CHIP ══════════════════════════════════════════════════ */
+.chip {
+  height: 24px; padding: 0 8px;
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.chip .glyph { width: 12px; height: 12px; flex: none; }
+
+.chip.success {
+  background: var(--diff-added-bg);
+  border-color: var(--diff-added-bg);
+  color: var(--status-success);
+}
+.chip.warning {
+  background: var(--bg-raised);
+  border-color: var(--status-warning-soft);
+  color: var(--status-warning-soft);
+}
+
+/* ── primitives showcase ──────────────────────────────────── */
+.spec-group { display: flex; flex-direction: column; gap: 12px; }
+.spec-title {
+  font-size: 11px; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--text-tertiary);
+}
+.spec-row {
+  display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap;
+}
+/* filepath: otoki/preview/overlays.css
+   ═══════════════════════════════════════════════════════════════
+   otoki — OVERLAYS (board 04)
+   Exact geometry from Figma — see docs/OVERLAYS-SPEC.md
+   ApprovalSheet 680×603 · Palette 680×513
+   Both are overlays — they sit on top of the whole app.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── overlay layer ─────────────────────────────────────────── */
+.overlay-scrim {
+  position: absolute; inset: 0;
+  background: var(--bg-overlay);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 40;
+}
+
+.overlay {
+  width: 680px; max-width: 100%;
+  display: flex; flex-direction: column;
+  border-radius: var(--r-xl);
+  background: var(--bg-app);
+  /* Figma strokeAlign = INSIDE → the 1px stroke is painted INSIDE the box and
+     must NOT steal layout. A CSS `border` would. Use an inset ring instead. */
+  box-shadow: inset 0 0 0 1px var(--border-default), 0 24px 64px rgb(0 0 0 / 50%);
+  overflow: hidden;
+}
+.overlay .divider {
+  width: 100%; height: 1px; flex: none;
+  background: var(--border-default);
+}
+
+/* ══ APPROVAL SHEET ═══════════════════════════════════════
+   680×603 = header 90 + divider 1 + details 441 + divider 1 + actions 70
+   ══════════════════════════════════════════════════════════ */
+.approval-sheet .sheet-header {
+  height: 90px; padding: 0 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.approval-sheet .sheet-header .glyph {
+  width: 20px; height: 20px; flex: none;
+  color: var(--text-secondary);
+}
+.approval-sheet .request-identity {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.approval-sheet .request-title {
+  font-size: 14px; font-weight: 500; line-height: 21px;
+  color: var(--text-primary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.approval-sheet .request-sub {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-tertiary);
+}
+.approval-sheet .status-badge {
+  height: 21px; padding: 3px 7px; margin-left: auto; flex: none;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--status-warning-soft);
+  white-space: nowrap;
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+
+.approval-sheet .sheet-details {
+  height: 441px; padding: 24px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.approval-sheet .intro {
+  font-size: 13px; font-weight: 400; line-height: 20px;
+  color: var(--text-secondary);
+}
+
+/* requested command block — 632×75 */
+.approval-sheet .command-block {
+  height: 75px; padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.approval-sheet .command-context {
+  height: 15px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-tertiary);
+}
+.approval-sheet .command-context .ctx-path {
+  font-family: var(--font-mono);
+}
+.approval-sheet .command-text {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 400; line-height: 18px;
+  color: var(--text-primary);
+}
+
+/* permission scope — 632×104, 4 rows of 17, gap 12 */
+.approval-sheet .permission-scope {
+  height: 104px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.approval-sheet .permission-row {
+  height: 17px;
+  display: flex; align-items: center; gap: 16px;
+}
+.approval-sheet .permission-row .k {
+  width: 108px; flex: none;
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-tertiary);
+}
+.approval-sheet .permission-row .v {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* permission choice — 632×60 */
+.approval-sheet .permission-choice {
+  height: 60px; padding: 12px;
+  display: flex; align-items: center; gap: 10px;
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.approval-sheet .permission-choice .glyph {
+  width: 15px; height: 15px; flex: none;
+  color: var(--text-secondary);
+}
+.approval-sheet .permission-duration {
+  /* FILL — the label block takes what is left after the glyph and the
+     trailing key hint, and its text ellipsis rather than pushing wide. */
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.approval-sheet .permission-duration .t {
+  font-size: 12px; font-weight: 400; line-height: 18px;
+  color: var(--text-primary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.approval-sheet .permission-duration .d {
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-tertiary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.approval-sheet .footnote {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-tertiary);
+}
+
+/* approval actions — 680×70, pad 18 24, space-between */
+.approval-sheet .sheet-actions {
+  height: 70px; padding: 18px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.approval-sheet .actions-note {
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-tertiary);
+}
+.approval-sheet .decisions {
+  display: flex; align-items: center; gap: 8px;
+}
+.approval-sheet .decision {
+  height: 34px; padding: 0 12px;
+  display: inline-flex; align-items: center; gap: 12px;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  font-size: 12px; font-weight: 500; line-height: 18px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.approval-sheet .decision .key {
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-secondary);
+}
+.approval-sheet .decision.allow {
+  background: var(--bg-surface-3);
+  box-shadow: inset 0 0 0 1px var(--text-tertiary);
+}
+
+/* ══ PALETTE ═════════════════════════════════════════════════
+   680×513 = search 62 + divider 1 + matches 405 + divider 1 + footer 44
+   ══════════════════════════════════════════════════════════ */
+.palette .search-bar {
+  height: 62px; padding: 0 20px;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-surface-2);
+}
+.palette .search-bar .glyph {
+  width: 18px; height: 18px; flex: none;
+  color: var(--text-secondary);
+}
+.palette .query {
+  flex: 1; min-width: 0;
+  height: 21px;
+  display: flex; align-items: center; gap: 2px;
+}
+.palette .query .text {
+  font-size: 14px; font-weight: 400; line-height: 21px;
+  color: var(--text-primary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.palette .query .caret {
+  width: 1px; height: 17px; flex: none;
+  background: var(--text-primary);
+}
+.palette .key-hint {
+  height: 22px; padding: 0 5px; margin-left: auto; flex: none;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-sm);
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+
+/* search matches — 680×405, pad 12 10, gap 12 */
+.palette .matches {
+  height: 405px; padding: 12px 10px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.palette .command-group {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.palette .group-header {
+  height: 15px; padding: 0 12px;
+  align-self: flex-start;          /* Figma frame is HUG, not FILL */
+  display: flex; align-items: center;
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-tertiary);
+}
+
+/* matching command — 660×48, pad 0 12, gap 12, center */
+.palette .command {
+  height: 48px; padding: 0 12px;
+  display: flex; align-items: center; gap: 12px;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+}
+.palette .command.selected { background: var(--bg-selected); }
+.palette .command .glyph {
+  width: 15px; height: 15px; flex: none;
+  color: var(--text-secondary);
+}
+.palette .command.selected .glyph { color: var(--text-primary); }
+.palette .command-details {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.palette .command-title {
+  font-size: 12px; font-weight: 400; line-height: 18px;
+  color: var(--text-primary);
+}
+.palette .command.selected .command-title { font-weight: 500; }
+.palette .command-meta {
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-tertiary);
+}
+.palette .command .key-hint { margin-left: auto; }
+
+/* search footer — 680×44, pad 0 20, space-between */
+.palette .search-footer {
+  height: 44px; padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.palette .match-count {
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-tertiary);
+}
+.palette .keyboard-controls {
+  display: flex; align-items: center; gap: 14px;
+}
+/* The three footer labels are pinned to their Figma text widths.
+   The browser's Inter lacks the ↵ / ↑ / ↓ glyphs that Figma's Inter has,
+   so the natural advance is 1-3px short. Pinning the box keeps the
+   footer rhythm identical without letter-spacing hacks. */
+.palette .keyboard-controls span {
+  flex: none;
+  text-align: left;
+}
+.palette .keyboard-controls span {
+  font-size: 10px; font-weight: 400; line-height: 15px;
+  color: var(--text-secondary);
+}
+.palette .keyboard-controls span.dim { color: var(--text-tertiary); }
+/* filepath: otoki/preview/output.css
+   ═══════════════════════════════════════════════════════════════
+   otoki — CHAT REASONING & OUTPUT (board 06)
+   Exact geometry from Figma — see docs/CHAT-OUTPUT-SPEC.md
+   ReasoningBlock 676×331 / 676×47
+   CodeBlock 676×492
+   TerminalBlock 676×357 / 676×391
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ══ SHARED SURFACE ════════════════════════════════════════
+   All four blocks share the same shell: 676 wide, r8, 1px INSIDE
+   stroke, --bg-app fill. A CSS border would steal 2px, so the
+   ring is an inset shadow.
+   ══════════════════════════════════════════════════════════ */
+.rb, .cb, .tb {
+  width: 100%; max-width: 676px;
+  display: flex; flex-direction: column;
+  border-radius: var(--r-lg);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  overflow: hidden;
+}
+.rb .divider, .cb .divider, .tb .divider {
+  width: 100%; height: 1px; flex: none;
+  background: var(--border-default);
+}
+
+/* ── specimen label (the board's caption, not part of the app) ── */
+.spec-block { display: flex; flex-direction: column; gap: 16px; }
+.spec-block-label { display: flex; flex-direction: column; gap: 6px; }
+.spec-block-label .variant {
+  font-size: 18px; font-weight: 400; line-height: 22px;
+  color: var(--text-heading);
+}
+.spec-block-label .usage {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-secondary);
+}
+
+/* ══ REASONING BLOCK ═══════════════════════════════════════ */
+.rb .rb-header {
+  height: 47px; padding: 0 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.rb .rb-header .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.rb .rb-header .summary {
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+}
+.rb .rb-header .step-count {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.rb .rb-header .chevron { width: 12px; height: 12px; flex: none; color: var(--text-secondary); margin-left: auto; }
+
+/* plan summary — 676×242, pad 20, gap 18 */
+.rb .rb-plan {
+  height: 242px; padding: 20px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.rb .rb-step {
+  height: 37px;
+  display: flex; align-items: center; gap: 12px;
+}
+.rb .rb-step .marker {
+  width: 16px; flex: none;
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+.rb .rb-step-details {
+  flex: 1; min-width: 0;          /* Figma: FILL/HUG → 608 wide */
+  display: flex; flex-direction: column; gap: 5px;
+}
+.rb .rb-step-details .title {
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-primary);
+}
+.rb .rb-step-details .desc {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-secondary);
+}
+
+/* plan context — 261×40, pad 14 16, gap 7 */
+.rb .rb-context {
+  width: 261px; height: 40px; padding: 0 16px;
+  align-self: flex-start;
+  display: flex; align-items: center; gap: 7px;
+}
+.rb .rb-context .glyph { width: 12px; height: 12px; flex: none; color: var(--text-secondary); }
+.rb .rb-context .scope {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+/* ══ CODE BLOCK ═════════════════════════════════════════════ */
+.cb .cb-heading {
+  height: 46px; padding: 0 16px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-surface-2);
+}
+.cb .cb-heading .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.cb .cb-heading .filename {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-primary);
+}
+.cb .cb-heading .language {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.cb .cb-copy {
+  height: 13px; margin-left: auto;
+  display: flex; align-items: center; gap: 6px;
+}
+.cb .cb-copy .glyph { width: 12px; height: 12px; flex: none; color: var(--text-secondary); }
+.cb .cb-copy .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* source code — 676×404, pad 18 16 */
+.cb .cb-source {
+  height: 404px; padding: 18px 16px;
+  display: flex; flex-direction: column; gap: 0;
+  overflow: hidden;
+}
+.cb .cb-line {
+  height: 23px;
+  display: flex; align-items: center; gap: 18px;
+}
+.cb .cb-line .ln {
+  width: 22px; flex: none;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 23px;
+  color: var(--text-tertiary);
+}
+.cb .cb-line .src {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 400; line-height: 23px;
+  color: var(--text-primary);
+  white-space: pre;
+}
+.cb .cb-line.dim .src { color: var(--text-secondary); }
+
+/* code footer — 676×40, pad 14, space-between */
+.cb .cb-footer {
+  height: 40px; padding: 0 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cb .cb-footer span {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ══ TERMINAL BLOCK ════════════════════════════════════════ */
+.tb .tb-heading {
+  height: 47px; padding: 0 16px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-surface-2);
+}
+.tb .tb-heading .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.tb .tb-heading .identity {
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+}
+.tb .tb-copy {
+  height: 13px; margin-left: auto;
+  display: flex; align-items: center; gap: 6px;
+}
+.tb .tb-copy .glyph { width: 12px; height: 12px; flex: none; color: var(--text-secondary); }
+.tb .tb-copy .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* terminal output — pad 20, gap 16 */
+.tb .term-output {
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.tb .term-output .cwd {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+.tb .term-output .cmd {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 400; line-height: 20px;
+  color: var(--text-primary);
+  white-space: pre;
+}
+.tb .run-result {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.tb .run-result .runner {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-tertiary);
+}
+.tb .run-result .test-file {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 400; line-height: 20px;
+  color: var(--status-success);
+}
+.tb.error .run-result .test-file { color: var(--status-error-soft); }
+.tb .run-result .details {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 21px;
+  color: var(--text-secondary);
+  white-space: pre;
+}
+.tb .test-totals {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 400; line-height: 16px;
+  color: var(--status-success);
+}
+.tb.error .test-totals { color: var(--status-error-soft); }
+.tb .recovery-note {
+  font-size: 11px; font-weight: 400; line-height: 18px;
+  color: var(--text-secondary);
+}
+
+/* exit status — 676×37, pad 12 16, space-between */
+.tb .exit-status {
+  height: 37px; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tb .exit-status .state {
+  display: flex; align-items: center; gap: 6px;
+}
+.tb .exit-status .state .glyph { width: 12px; height: 12px; flex: none; color: var(--status-success); }
+.tb.error .exit-status .state .glyph { color: var(--status-error-soft); }
+.tb .exit-status .state .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--status-success);
+}
+.tb.error .exit-status .state .label { color: var(--status-error-soft); }
+.tb .exit-status .duration {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+/* filepath: otoki/preview/delivery.css
+   ═══════════════════════════════════════════════════════════════
+   otoki — REVIEW & DELIVERY (board 08)
+   Exact geometry from Figma — see docs/DELIVERY-SPEC.md
+   CommitsDrawer 446×625 · PRDraftCard 680×461
+   CommitBar 918×94 · ReviewButton 172×36
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ══ SHARED SURFACE ════════════════════════════════════════
+   Figma strokeAlign = INSIDE → the 1px ring is an inset shadow so
+   it does not steal layout.
+   ══════════════════════════════════════════════════════════ */
+.cd, .prd, .cbar, .rvb {
+  display: flex; flex-direction: column;
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  overflow: hidden;
+}
+.cd .divider, .prd .divider, .cbar .divider {
+  width: 100%; height: 1px; flex: none;
+  background: var(--border-default);
+}
+
+/* ── specimen label ────────────────────────────────────────── */
+.dl-block { display: flex; flex-direction: column; gap: 20px; }
+.dl-label { display: flex; flex-direction: column; gap: 8px; }
+.dl-label .variant {
+  font-size: 18px; font-weight: 400; line-height: 22px;
+  color: var(--text-heading);
+}
+.dl-label .usage {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* ══ COMMITS DRAWER — 446×625 ══════════════════════════════ */
+.cd { width: 446px; background: var(--bg-app); }
+
+.cd .cd-header {
+  height: 57px; padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cd .cd-header .title {
+  font-size: 14px; font-weight: 500; line-height: 17px;
+  color: var(--text-primary);
+}
+.cd .cd-header .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+
+/* branch context — 446×127, pad 20, gap 12 */
+.cd .branch-context {
+  height: 127px; padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.cd .branch-context .repo {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+.cd .branch {
+  width: 138px; height: 16px;
+  align-self: flex-start;           /* Figma: HUG/HUG */
+  display: flex; align-items: center; gap: 8px;
+}
+.cd .branch .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.cd .branch .name {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 400; line-height: 16px;
+  color: var(--text-primary);
+}
+/* working tree notice — 406×34, pad 10, gap 8, r6 */
+.cd .wt-notice {
+  height: 34px; padding: 0 10px;
+  display: flex; align-items: center; gap: 8px;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.cd .wt-notice .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.cd .wt-notice .text {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* history label — 446×32, pad 10 20, space-between */
+.cd .history-label {
+  height: 32px; padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cd .history-label span {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+
+/* commit entry — 446×68, pad 16, gap 12 */
+.cd .commit-entry {
+  height: 68px; padding: 0 16px;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.cd .commit-entry.selected {
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--text-secondary);
+}
+.cd .commit-entry .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.cd .commit-summary {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.cd .commit-summary .subject {
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-primary);
+}
+.cd .commit-meta {
+  height: 13px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cd .commit-meta .author {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.cd .commit-meta .hash {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* selected commit detail — 446×204, pad 20, gap 16 */
+.cd .commit-detail {
+  height: 204px; padding: 20px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.cd .detail-selection {
+  height: 18px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cd .detail-selection .hash {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-primary);
+}
+.status-badge {
+  height: 18px; padding: 3px 7px;
+  display: inline-flex; align-items: center; flex: none;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.cd .detail-subject {
+  font-size: 13px; font-weight: 400; line-height: 16px;
+  color: var(--text-primary);
+}
+.cd .detail-desc {
+  font-size: 12px; font-weight: 400; line-height: 19px;
+  color: var(--text-secondary);
+}
+.cd .detail-file {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-tertiary);
+}
+.cd .inspect-action {
+  width: 110px; height: 14px;
+  align-self: flex-start;           /* Figma: HUG/HUG */
+  display: flex; align-items: center; gap: 8px;
+}
+.cd .inspect-action .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-primary);
+}
+.cd .inspect-action .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+
+/* ══ PR DRAFT CARD — 680×461 ═══════════════════════════════ */
+/* FILL, not FIXED — the card has to fit the content column it lives in. */
+.prd { width: 100%; max-width: 680px; background: var(--bg-app); }
+
+.prd .prd-header {
+  height: 58px; padding: 0 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.prd .prd-header .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.prd .prd-header .heading {
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+}
+.prd .prd-header .status-badge { margin-left: auto; }
+
+/* draft content — 680×263, pad 20, gap 20 */
+.prd .prd-content {
+  height: 263px; padding: 20px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.prd .title-field {
+  height: 39px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.prd .field-label {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.prd .prd-title {
+  font-size: 16px; font-weight: 500; line-height: 19px;
+  color: var(--text-primary);
+}
+/* branch comparison — 640×22, gap 10, center */
+.prd .branch-comparison {
+  height: 22px;
+  display: flex; align-items: center; gap: 10px;
+}
+.prd .branch-comparison .side {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.prd .branch-comparison .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.prd .head-branch {
+  height: 22px; padding: 4px 8px;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.prd .head-branch .branch-name {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-secondary);
+}
+/* description — 640×88, gap 10 */
+.prd .prd-description {
+  height: 88px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.prd .prd-description .summary {
+  font-size: 12px; font-weight: 400; line-height: 22px;
+  color: var(--text-secondary);
+  white-space: pre-line;
+}
+/* patch summary — 640×14, gap 12, center */
+.prd .patch-summary {
+  height: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.prd .patch-summary .files {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-primary);
+}
+.prd .patch-summary .state {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.line-totals {
+  height: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.line-totals .add, .line-totals .del {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+}
+.line-totals .add { color: var(--status-success); }
+.line-totals .del { color: var(--status-error-soft); }
+
+/* local checks — 680×84, pad 20, gap 12 */
+.prd .local-checks {
+  height: 84px; padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.prd .validation {
+  height: 15px;
+  display: flex; align-items: center; gap: 8px;
+}
+.prd .validation .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.prd .validation .result {
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-primary);
+}
+.prd .validation .source {
+  margin-left: auto;
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.prd .remote-status {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-tertiary);
+}
+
+/* draft actions — 680×54, pad 0 20 20 20, space-between */
+.prd .draft-actions {
+  height: 54px; padding: 0 20px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.prd .prereq {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.prd .action-btn {
+  height: 34px; padding: 0 12px;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-md);
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* ══ COMMIT BAR — 918×94 ════════════════════════════════════ */
+.cbar {
+  width: 100%; max-width: 918px; padding: 16px; gap: 12px;
+  background: var(--bg-surface-2);
+}
+.cbar .commit-controls {
+  height: 36px;
+  display: flex; align-items: center; gap: 12px;
+}
+.cbar .message-field {
+  height: 36px; padding: 0 12px;
+  flex: 1; min-width: 0;
+  display: flex; align-items: center;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cbar .commit-btn {
+  height: 34px; padding: 0 12px; flex: none;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-md);
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+/* staging status — 886×14, space-between, center */
+.cbar .staging-status {
+  height: 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  min-width: 0;
+}
+.cbar .staged-summary {
+  height: 14px;
+  display: flex; align-items: center; gap: 12px;
+  min-width: 0;
+}
+.cbar .staged-summary .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.cbar .staged-summary .staged-files {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+.cbar .approval-gate {
+  height: 14px;
+  display: flex; align-items: center; gap: 7px;
+}
+.cbar .approval-gate .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.cbar .approval-gate .gate-label {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+  /* The gate note can shrink and ellipsis rather than push the bar wide. */
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* ══ REVIEW BUTTON — 172×36 ════════════════════════════════ */
+.rvb {
+  width: 172px; height: 36px; padding: 0 12px;
+  flex-direction: row; align-items: center; gap: 10px;
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--text-secondary);
+}
+.rvb .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.rvb .action-label {
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+}
+.rvb .file-count {
+  width: 20px; height: 20px; flex: none;
+  display: grid; place-items: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-primary);
+}
+/* filepath: otoki/preview/wsnav.css
+   ═══════════════════════════════════════════════════════════════
+   otoki — WORKSPACE NAVIGATION (board 09)
+   Exact geometry from Figma — see docs/WORKSPACE-NAV-SPEC.md
+   WorkspaceTreeNode 236×148 / 236×36
+   WorkspaceRow 204×54 · WorkspaceCard 446×228 / 446×223
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── specimen label ────────────────────────────────────────── */
+.wn-block { display: flex; flex-direction: column; gap: 24px; }
+.wn-label { display: flex; flex-direction: column; gap: 7px; }
+.wn-label .variant {
+  font-size: 18px; font-weight: 400; line-height: 22px;
+  color: var(--text-heading);
+}
+.wn-label .usage {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* ══ WORKSPACE TREE NODE ════════════════════════════════════ */
+.tn { width: 236px; display: flex; flex-direction: column; gap: 4px; }
+
+.tn .tn-repo {
+  height: 36px; padding: 0 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.tn .tn-repo .disclosure {
+  width: 10px; height: 10px; flex: none;
+  color: var(--text-tertiary);
+}
+.tn .tn-repo .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.tn .tn-repo .project {
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+}
+.tn .tn-repo .count {
+  margin-left: auto;
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+
+/* workspaces — 236×108, pad-left 20, gap 4 */
+.tn .tn-workspaces {
+  height: 108px; padding-left: 20px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.tn .tn-workspace {
+  height: 52px; padding: 9px;
+  display: flex; flex-direction: column; gap: 7px;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-2);
+}
+.tn .tn-workspace.plain { background: transparent; }
+.tn .tn-identity {
+  height: 14px;
+  display: flex; align-items: center; gap: 7px;
+}
+.tn .tn-identity .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.tn .tn-identity .branch {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.tn .tn-workspace.plain .tn-identity .branch { color: var(--text-secondary); }
+.tn .tn-task {
+  width: 131px; height: 13px;
+  align-self: flex-start;              /* Figma: HUG/HUG */
+  display: flex; align-items: center; gap: 7px;
+}
+.tn .tn-task .indicator { width: 12px; height: 12px; flex: none; }
+.tn .tn-task .indicator.review { color: var(--status-warning-soft); }
+.tn .tn-task .indicator.active { color: var(--text-secondary); }
+.tn .tn-task .title {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* ══ WORKSPACE ROW — 204×54 ═════════════════════════════════ */
+.wr {
+  width: 204px; height: 54px; padding: 10px;
+  display: flex; flex-direction: column; gap: 7px;
+  border-radius: var(--r-md);
+  background: transparent;          /* Figma used pure black here — an artefact */
+}
+.wr.selected { background: var(--bg-surface-2); }
+.wr .wr-identity {
+  height: 15px;
+  display: flex; align-items: center; gap: 7px;
+}
+.wr .wr-identity .indicator { width: 12px; height: 12px; flex: none; }
+.wr .wr-identity .indicator.review { color: var(--status-warning-soft); }
+.wr .wr-identity .indicator.active { color: var(--text-secondary); }
+.wr .wr-identity .title {
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-secondary);
+}
+.wr.selected .wr-identity .title { color: var(--text-primary); }
+/* metadata — 184×12, gap 8, pad-left 19 */
+.wr .wr-meta {
+  height: 12px; padding-left: 19px;
+  display: flex; align-items: center; gap: 8px;
+}
+.wr .wr-meta .branch {
+  font-family: var(--font-mono);
+  font-size: 9px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+.wr .wr-meta .updated {
+  margin-left: auto;
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ══ WORKSPACE CARD — 446×228 / 446×223 ════════════════════ */
+.wc {
+  width: 446px; padding: 20px;
+  display: flex; flex-direction: column; gap: 18px;
+  border-radius: var(--r-lg);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.wc.archived { background: var(--bg-app); }
+
+/* project context — 406×20, gap 8, center */
+.wc .wc-context {
+  height: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.wc.archived .wc-context { height: 15px; }
+.wc .wc-context .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.wc .wc-context .project {
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-secondary);
+}
+.wc .category-tag {
+  height: 20px; padding: 0 6px; margin-left: auto;
+  display: inline-flex; align-items: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-secondary);
+}
+.wc .archive-label {
+  margin-left: auto;
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+
+/* workspace identity — 406×40, gap 9 */
+.wc .wc-identity {
+  height: 40px;
+  display: flex; flex-direction: column; gap: 9px;
+}
+.wc .wc-identity .task-title {
+  font-size: 14px; font-weight: 500; line-height: 17px;
+  color: var(--text-primary);
+}
+.wc.archived .wc-identity .task-title { color: var(--text-secondary); }
+.wc .wc-branch {
+  width: 127px; height: 14px;
+  align-self: flex-start;              /* Figma: HUG/HUG */
+  display: flex; align-items: center; gap: 7px;
+}
+.wc .wc-branch .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.wc .wc-branch .branch {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* task progress — 406×47, gap 9 */
+.wc .wc-progress {
+  height: 47px;
+  display: flex; flex-direction: column; gap: 9px;
+}
+.wc .progress-summary {
+  height: 13px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.wc .progress-summary .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+.wc .progress-summary .steps {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+/* progress track — 406×3, gap 4 */
+.wc .progress-track {
+  height: 3px;
+  display: flex; align-items: center; gap: 4px;
+}
+.wc .progress-track span {
+  flex: 1; height: 3px;
+  border-radius: 2px;
+  background: var(--text-secondary);
+}
+.wc .progress-track span.done { background: var(--text-secondary); }
+.wc .progress-track span.pending { background: var(--border-default); }
+.wc .validation-summary {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+
+/* review state — 406×27, pad-left 14, gap 8, center */
+.wc .review-state {
+  height: 27px; padding-left: 14px;
+  display: flex; align-items: center; gap: 8px;
+  border-left: 1px solid var(--border-default);
+}
+.wc .review-state .indicator { width: 12px; height: 12px; flex: none; }
+.wc .review-state .indicator.review { color: var(--status-warning-soft); }
+.wc .review-state .indicator.done { color: var(--status-connected); }
+.wc .review-state .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--status-warning-soft);
+}
+.wc.archived .review-state .label { color: var(--text-secondary); }
+.wc .review-state .context {
+  margin-left: auto;
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+}
+/* filepath: otoki/preview/navprim.css
+   ═══════════════════════════════════════════════════════════════
+   otoki — NAVIGATION PRIMITIVES (board 10)
+   Exact geometry from Figma — see docs/NAV-PRIMITIVES-SPEC.md
+   TaskStatusDot 12×12 · StatusDot 8×8
+   SectionLabel 204×20 · TagChip 38×20 / 33×20
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── specimen label ────────────────────────────────────────── */
+.nav-family { display: flex; flex-direction: column; gap: 24px; }
+.nav-family-head { display: flex; flex-direction: column; gap: 7px; }
+.nav-family-head .name {
+  font-size: 18px; font-weight: 400; line-height: 22px;
+  color: var(--text-heading);
+}
+.nav-family-head .desc {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+.nav-specimens { display: flex; flex-direction: column; gap: 20px; }
+.nav-specimen { display: flex; flex-direction: column; gap: 12px; }
+.nav-specimen > .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* ══ TASK STATUS DOT — 12×12 ═══════════════════════════════ */
+.tsd {
+  width: 12px; height: 12px; flex: none;
+  position: relative;
+  display: grid; place-items: center;
+}
+/* the ring is 10×10 inside the 12×12 box */
+.tsd .ring {
+  position: absolute; top: 1px; left: 1px;
+  width: 10px; height: 10px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.tsd.queued { color: var(--text-secondary); }
+.tsd.running { color: var(--text-secondary); }
+/* running: open arc + centre dot */
+.tsd.running .arc {
+  position: absolute; inset: 1px;
+  width: 10px; height: 10px;
+  overflow: visible;
+}
+.tsd.running .arc path {
+  fill: none; stroke: currentColor; stroke-width: 1;
+  stroke-linecap: butt;
+}
+.tsd.running .core {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.tsd.review { color: var(--status-warning-soft); }
+.tsd.review .diamond {
+  position: absolute; inset: 0;
+  width: 12px; height: 12px;
+  overflow: visible;
+}
+.tsd.review .diamond path { fill: none; stroke: currentColor; stroke-width: 1; }
+.tsd.complete { color: var(--status-connected); }
+.tsd.complete .check {
+  position: absolute; inset: 0;
+  width: 12px; height: 12px;
+  overflow: visible;
+}
+.tsd.complete .check path { fill: none; stroke: currentColor; stroke-width: 1; }
+.tsd.failed { color: var(--status-failed-soft); }
+.tsd.failed .cross {
+  position: absolute; inset: 0;
+  width: 12px; height: 12px;
+  overflow: visible;
+}
+.tsd.failed .cross path { fill: none; stroke: currentColor; stroke-width: 1; }
+
+/* ══ STATUS DOT — 8×8 ══════════════════════════════════════ */
+.sd {
+  width: 8px; height: 8px; flex: none;
+  position: relative;
+  display: grid; place-items: center;
+}
+.sd.connected { color: var(--status-connected); }
+.sd.connected .signal {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.sd.connecting { color: var(--status-warning-soft); }
+.sd.connecting .arc {
+  position: absolute; inset: 0;
+  width: 8px; height: 8px;
+  overflow: visible;
+}
+.sd.connecting .arc path { fill: none; stroke: currentColor; stroke-width: 1; }
+.sd.offline { color: var(--text-tertiary); }
+.sd.offline .ring {
+  position: absolute; inset: 0;
+  width: 7px; height: 7px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.sd.offline .slash {
+  position: absolute; inset: 0;
+  width: 8px; height: 8px;
+  overflow: visible;
+}
+.sd.offline .slash path { fill: none; stroke: currentColor; stroke-width: 1; }
+
+/* ══ SECTION LABEL — 204×20 ═════════════════════════════════ */
+.slabel {
+  width: 204px; height: 20px;
+  display: flex; align-items: center; gap: 7px;
+}
+.slabel .title {
+  font-size: 10px; font-weight: 500; line-height: 12px;
+  color: var(--text-tertiary);
+}
+.slabel .disclosure {
+  width: 10px; height: 10px; flex: none;
+  overflow: visible;
+}
+.slabel .disclosure path { fill: none; stroke: currentColor; stroke-width: 1; }
+.slabel .count {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+
+/* ══ TAG CHIP — 20 tall ═════════════════════════════════════ */
+.tchip {
+  height: 20px; padding: 0 6px;
+  align-self: flex-start;   /* Figma: HUG/FIXED → shrink to content */
+  width: fit-content;
+  display: inline-flex; align-items: center; gap: 4px;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.tchip.accent {
+  background: var(--bg-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--border-control);
+  color: var(--text-heading);
+}
+/* filepath: otoki/preview/lists.css
+   ═══════════════════════════════════════════════════════════════
+   otoki — LISTS & SETTINGS (board 11)
+   Exact geometry from Figma — see docs/LISTS-SETTINGS-SPEC.md
+   ListRow 676×64 · SettingsRow 676×84
+   PageHeader 676×96 · UsageBar 676×89
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── specimen label ────────────────────────────────────────── */
+.ls-block { display: flex; flex-direction: column; gap: 12px; }
+.ls-block > .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* ══ LIST ROW — 676×64 ══════════════════════════════════════ */
+.lrow {
+  width: 100%; max-width: 676px; height: 64px; padding: 0 14px;
+  display: flex; align-items: center; gap: 12px;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.lrow.selected {
+  background: var(--bg-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--border-control);
+}
+.lrow .glyph { width: 16px; height: 16px; flex: none; color: var(--text-secondary); }
+.lrow.selected .glyph { color: var(--text-primary); }
+/* the board's icons use stroke 1.25, not the sprite's 1.75 */
+.lrow .glyph path, .lrow .glyph circle, .lrow .glyph rect { stroke-width: 1.25; }
+.lrow .content {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.lrow .primary {
+  align-self: flex-start;
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.lrow .secondary {
+  align-self: flex-start;
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.lrow .metadata {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.lrow .chevron { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.lrow .chevron path { stroke-width: 1.25; }
+
+/* ══ SETTINGS ROW — 676×84 ══════════════════════════════════ */
+.srow {
+  width: 100%; max-width: 676px; height: 84px; padding: 0 16px;
+  display: flex; align-items: center; gap: 24px;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.srow .details {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.srow .label {
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+}
+.srow .help {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-secondary);
+}
+
+/* toggle control — 57×18 */
+.srow .toggle-control {
+  height: 18px; flex: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.srow .toggle-value {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+.srow .toggle {
+  width: 32px; height: 18px; padding: 3px; flex: none;
+  display: block;                 /* the thumb is a block circle, not a flex child */
+  border-radius: var(--r-pill);
+  background: var(--bg-raised);
+}
+.srow .toggle .thumb {
+  display: block;
+  width: 12px; height: 12px;
+  padding: 0;              /* tokens.css `.toggle span` adds padding */
+  border-radius: 50%;
+  background: var(--text-primary);
+  color: inherit; font-size: inherit;   /* and font styling */
+}
+
+/* select control — 144×32 */
+.srow .select-control {
+  width: 144px; height: 32px; padding: 0 10px; flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-control);
+}
+.srow .select-value {
+  font-size: 12px; font-weight: 400; line-height: 15px;
+  color: var(--text-primary);
+}
+.srow .select-control .glyph { width: 12px; height: 12px; flex: none; color: var(--text-secondary); }
+.srow .select-control .glyph path { stroke-width: 1.25; }
+
+/* ══ PAGE HEADER — 676×96 ════════════════════════════════════ */
+.phead {
+  width: 100%; max-width: 676px; height: 96px; padding: 0 0 20px;
+  display: flex; align-items: center; gap: 24px;
+  /* stroke but NO fill — it is a bottom rule on the page */
+  box-shadow: inset 0 -1px 0 0 var(--border-default);
+}
+.phead .details {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.phead .title {
+  align-self: flex-start;   /* HUG — the title is not as wide as the details */
+  font-size: 20px; font-weight: 500; line-height: 24px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.phead .desc {
+  font-size: 12px; font-weight: 400; line-height: 18px;
+  color: var(--text-secondary);
+}
+.phead .primary-action {
+  height: 32px; padding: 0 12px; flex: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: var(--r-md);
+  background: var(--bg-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--border-control);
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.phead .primary-action .glyph { width: 13px; height: 13px; flex: none; color: var(--text-primary); }
+.phead .primary-action .glyph path { stroke-width: 1.25; }
+
+/* ══ USAGE BAR — 676×89 ═════════════════════════════════════ */
+.ubar {
+  width: 100%; max-width: 676px; height: 89px; padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+  border-radius: var(--r-lg);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.ubar .summary {
+  height: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ubar .usage-label {
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.ubar .consumed {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.ubar.warn .consumed { color: var(--status-warning-soft); }
+/* track — 644×4, rail + consumed amount */
+.ubar .track {
+  width: 100%; max-width: 644px; height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--bg-track);
+  overflow: hidden;
+}
+.ubar .track .amount {
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--accent-usage);
+}
+.ubar.warn .track .amount { background: var(--status-warning-soft); }
+.ubar .context {
+  height: 13px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ubar .remaining {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.ubar.warn .remaining { color: var(--status-warning-soft); }
+.ubar .reset {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+/* filepath: otoki/preview/onboarding.css
+   ═══════════════════════════════════════════════════════════════
+   otoki — ONBOARDING & CHOICES (board 12)
+   Exact geometry from Figma — see docs/ONBOARDING-SPEC.md
+   OptionCard 326×174 · ProviderPicker 676×307
+   SuggestionList 676×319 · Keycap 24×24 / 73×24
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── specimen label ────────────────────────────────────────── */
+.ob-block { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.ob-block > .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+/* The pair wraps when the cards no longer fit side by side. */
+.ob-pair { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+
+/* board-12 icons use stroke 1.25, not the sprite's 1.75 */
+.ob-glyph path, .ob-glyph circle, .ob-glyph rect { stroke-width: 1.25; }
+
+/* ══ OPTION CARD — 326×174 ══════════════════════════════════ */
+.ocard {
+  width: 326px; max-width: 100%; height: 174px; padding: 16px;
+  display: flex; flex-direction: column; gap: 16px;
+  border-radius: var(--r-lg);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.ocard.selected {
+  background: var(--bg-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--border-control);
+}
+.ocard .identity {
+  height: 18px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ocard .identity .glyph { width: 18px; height: 18px; flex: none; color: var(--text-secondary); }
+.ocard .details {
+  height: 59px;
+  display: flex; flex-direction: column; gap: 7px;
+  min-width: 0;
+}
+.ocard .details .title {
+  align-self: flex-start;
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.ocard .details .desc {
+  font-size: 12px; font-weight: 400; line-height: 18px;
+  color: var(--text-secondary);
+  overflow: hidden; text-overflow: ellipsis;
+}
+/* radio — 16×16, r100, 1px stroke; selected adds a 6×6 filled dot */
+.ocard .radio,
+.picker .radio {
+  width: 16px; height: 16px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--border-control);
+}
+.ocard.selected .radio,
+.picker .radio.on {
+  box-shadow: inset 0 0 0 1px var(--accent-usage);
+}
+.ocard.selected .radio .dot,
+.picker .radio.on .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-usage);
+}
+
+/* ══ PROVIDER PICKER — 676×307 ══════════════════════════════ */
+.picker {
+  width: 100%; max-width: 676px; height: 307px; padding: 16px;
+  display: flex; flex-direction: column; gap: 16px;
+  border-radius: var(--r-lg);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.picker .heading {
+  height: 40px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.picker .heading .title {
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.picker .heading .context {
+  font-size: 12px; font-weight: 400; line-height: 18px;
+  color: var(--text-secondary);
+}
+.picker .options {
+  height: 190px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.picker .option {
+  height: 58px; padding: 0 12px;
+  display: flex; align-items: center; gap: 12px;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.picker .option.on {
+  background: var(--bg-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--border-control);
+}
+.picker .option .glyph { width: 16px; height: 16px; flex: none; color: var(--text-secondary); }
+.picker .option .details {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.picker .option .name {
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.picker .option.dim .name { color: var(--text-secondary); }
+.picker .option .cmd {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+.picker .availability {
+  flex: none;
+  display: flex; align-items: center; gap: 6px;
+}
+.picker .availability .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.picker .summary {
+  height: 13px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.picker .summary .selected {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+.picker .summary .manage {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-heading);
+}
+
+/* ══ SUGGESTION LIST — 676×319 ══════════════════════════════ */
+.sugg {
+  width: 100%; max-width: 676px; height: 319px; padding: 8px;
+  display: flex; flex-direction: column; gap: 4px;
+  border-radius: var(--r-lg);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.sugg .heading {
+  height: 31px; padding: 0 8px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sugg .heading .title {
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.sugg .heading .context {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+.sugg .item {
+  height: 64px; padding: 0 12px;
+  display: flex; align-items: center; gap: 12px;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.sugg .item .glyph { width: 16px; height: 16px; flex: none; color: var(--text-secondary); }
+.sugg .item .details {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.sugg .item .prompt {
+  font-size: 13px; font-weight: 400; line-height: 16px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.sugg .item .desc {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+.sugg .item .arrow { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+
+/* ══ KEYCAP — 24 tall ═══════════════════════════════════════ */
+.kcap {
+  height: 24px;
+  align-self: flex-start;      /* HUG — the keycap is not as wide as the row */
+  width: fit-content;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.kcap .key {
+  min-width: 24px; height: 24px; padding: 0 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-control);
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.kcap .key.wide { width: 45px; padding: 0; }
+/* filepath: otoki/preview/checks.css
+   ═══════════════════════════════════════════════════════════════
+   otoki — CHECKS & APPROVAL ACTIONS (board 14)
+   Exact geometry from Figma — see docs/CHECKS-SPEC.md
+   ChecksPanel 676×265 · ApprovalActions 676×294 / 676×298
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── specimen label ────────────────────────────────────────── */
+.ck-block { display: flex; flex-direction: column; gap: 12px; }
+.ck-block > .label {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* board-14 icons use stroke 1.25 */
+.ck-glyph path, .ck-glyph circle, .ck-glyph rect { stroke-width: 1.25; }
+
+/* ══ CHECKS PANEL — 676×265 ═════════════════════════════════ */
+.cpanel {
+  width: 100%; max-width: 676px; height: 265px;
+  display: flex; flex-direction: column;
+  border-radius: var(--r-lg);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  overflow: hidden;
+}
+.cpanel .panel-heading {
+  height: 50px; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  /* a 1px bottom rule, no fill */
+  box-shadow: inset 0 -1px 0 0 var(--border-default);
+}
+.cpanel .panel-title {
+  height: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.cpanel .panel-title .glyph { width: 14px; height: 14px; flex: none; color: var(--text-secondary); }
+.cpanel .panel-title .label {
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+}
+/* run-result badge */
+.cpanel .run-result {
+  height: 18px; padding: 3px 7px;
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: var(--r-sm);
+  background: var(--status-success-bg);
+  box-shadow: inset 0 0 0 1px var(--status-success-border);
+}
+.cpanel .run-result .glyph { width: 12px; height: 12px; flex: none; color: var(--status-success); }
+.cpanel .run-result .summary {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--status-success);
+  white-space: nowrap;
+}
+.cpanel.failed .run-result {
+  background: var(--status-error-bg);
+  box-shadow: inset 0 0 0 1px var(--status-error-border);
+}
+.cpanel.failed .run-result .glyph { color: var(--status-error-soft); }
+.cpanel.failed .run-result .summary { color: var(--status-error-soft); }
+
+/* validation details — 676×178, pad 16, gap 20 */
+.cpanel .validation {
+  height: 178px; padding: 16px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.cpanel .exec-context {
+  height: 34px;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.cpanel .run-context {
+  height: 13px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cpanel .repo {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+.cpanel .run-state {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+.cpanel .command {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 14px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+/* named checks — 644×92, gap 18 */
+.cpanel .named-checks {
+  height: 92px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.cpanel .check-row {
+  height: 37px;
+  display: flex; align-items: center; gap: 10px;
+}
+.cpanel .check-row .glyph { width: 15px; height: 15px; flex: none; color: var(--status-success); }
+.cpanel .check-row.failed .glyph { color: var(--status-error-soft); }
+.cpanel .check-details {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.cpanel .check-name {
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+}
+.cpanel .check-detail {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-secondary);
+}
+.cpanel .check-row.failed .check-detail { color: var(--status-error-soft); }
+.cpanel .check-result {
+  flex: none;
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--status-success);
+  white-space: nowrap;
+}
+.cpanel .check-row.failed .check-result { color: var(--status-error-soft); }
+
+/* execution footer — 676×37, pad 12 16, space-between */
+.cpanel .exec-footer {
+  height: 37px; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: inset 0 1px 0 0 var(--border-default);
+}
+.cpanel .exec-source {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+.cpanel .duration {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+
+/* ══ APPROVAL ACTIONS — 676×294 / 676×298 ═══════════════════ */
+.aact {
+  width: 100%; max-width: 676px;
+  display: flex; flex-direction: column;
+  border-radius: var(--r-lg);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  overflow: hidden;
+}
+.aact.pending { height: 294px; }
+.aact.approved { height: 298px; }
+.aact .perm-heading {
+  height: 50px; padding: 0 16px;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: inset 0 -1px 0 0 var(--border-default);
+}
+.aact .perm-heading .glyph { width: 18px; height: 18px; flex: none; color: var(--text-secondary); }
+.aact .perm-heading .title {
+  font-size: 13px; font-weight: 500; line-height: 16px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.aact .perm-heading .state {
+  margin-left: auto;
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--status-warning-soft);
+  white-space: nowrap;
+}
+.aact.approved .perm-heading .state { color: var(--status-success); }
+
+/* command scope — 676×176, pad 16, gap 14 */
+.aact .scope {
+  height: 176px; padding: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.aact .requester {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+}
+.aact .exact-command {
+  height: 62px; padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+  border-radius: var(--r-md);
+  background: var(--bg-surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+}
+.aact .exec-ctx {
+  height: 13px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.aact .workdir {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 400; line-height: 13px;
+  color: var(--text-tertiary);
+}
+.aact .exec-state {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-secondary);
+}
+.aact .cmd-text {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.aact .boundaries {
+  height: 41px;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.aact .boundaries span {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  white-space: nowrap;
+}
+.aact .boundaries .scope-line { color: var(--text-primary); }
+.aact .boundaries .effects { color: var(--text-secondary); }
+
+/* permission decisions — 676×68, pad 16, space-between */
+.aact .decisions {
+  height: 68px; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: inset 0 1px 0 0 var(--border-default);
+}
+.aact .guidance {
+  width: 340px; height: 30px;   /* Figma: FIXED/HUG */
+  display: flex; flex-direction: column; gap: 5px;
+}
+.aact .guidance .boundary {
+  font-size: 11px; font-weight: 400; line-height: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.aact .guidance .consequence {
+  font-size: 10px; font-weight: 400; line-height: 12px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+.aact .actions { display: flex; align-items: center; gap: 8px; }
+.aact .action {
+  height: 36px; padding: 0 12px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border-radius: var(--r-md);
+  background: var(--bg-app);
+  box-shadow: inset 0 0 0 1px var(--border-default);
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.aact .action.allow {
+  background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--text-secondary);
+}
+
+/* granted summary — 676×72, pad 16, gap 8 */
+.aact .granted {
+  height: 72px; padding: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  box-shadow: inset 0 1px 0 0 var(--border-default);
+}
+.aact .grant-confirm {
+  width: 310px; height: 15px;   /* Figma: HUG/HUG */
+  align-self: flex-start;
+  display: flex; align-items: center; gap: 8px;
+}
+.aact .grant-confirm .glyph { width: 14px; height: 14px; flex: none; color: var(--status-success); }
+.aact .grant-confirm .grant {
+  font-size: 12px; font-weight: 500; line-height: 15px;
+  color: var(--status-success);
+  white-space: nowrap;
+}
+.aact .grant-boundary {
+  font-size: 11px; font-weight: 400; line-height: 17px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+</style>
+</head>
+<body style="width:100%;height:100vh;margin:0;overflow:hidden;background:var(--bg-app)">
+<div style="display:flex;flex-direction:column;height:100%;width:100%;max-width:1440px;margin:0 auto">
+      <div class="page-topbar">
+  <div class="tb-item" style="font-weight:600">◆ Agentic</div>
+  <div class="tb-sep"></div>
+  <div class="tb-item muted trunc">Onboarding</div>
+  <div class="tb-spacer"></div>
+  <div class="btn ghost sm">Skip for now</div>
+</div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;overflow:hidden">
+        <div style="width:100%;max-width:760px;min-width:0">
+          <div class="stepper" style="display:flex;align-items:center;gap:8px;margin-bottom:36px;flex-wrap:wrap;min-width:0">
+            <div class="step done"><span class="step-dot">✓</span>Repository</div><div class="step-line"></div><div class="step done"><span class="step-dot">✓</span>Runtime</div><div class="step-line"></div><div class="step done"><span class="step-dot">✓</span>Model</div><div class="step-line"></div><div class="step on"><span class="step-dot">4</span>Preferences</div>
+          </div>
+          <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:0 0 6px">Set your defaults</h2>
+          <p style="font-size:13px;color:var(--text-tertiary);margin:0 0 28px">These apply to new workspaces. You can change them anytime.</p>
+          
+      <div style="border:1px solid var(--border-default);border-radius:12px;background:var(--bg-surface-1);padding:4px 20px">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-subtle)">
+    <div style="flex:1">
+      <div style="font-size:13px;color:var(--text-primary)">Auto-approve read operations</div>
+      <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px">Reading files and searching are always safe.</div>
+    </div>
+    <div class="tog on"><i></i></div>
+  </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-subtle)">
+    <div style="flex:1">
+      <div style="font-size:13px;color:var(--text-primary)">Ask before running shell commands</div>
+      <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px">The agent pauses for approval before each command.</div>
+    </div>
+    <div class="tog on"><i></i></div>
+  </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-subtle)">
+    <div style="flex:1">
+      <div style="font-size:13px;color:var(--text-primary)">Allow network requests</div>
+      <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px">Let the agent fetch packages and call APIs.</div>
+    </div>
+    <div class="tog"><i></i></div>
+  </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-subtle)">
+    <div style="flex:1">
+      <div style="font-size:13px;color:var(--text-primary)">Write to files without asking</div>
+      <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px">Edits are applied automatically.</div>
+    </div>
+    <div class="tog"><i></i></div>
+  </div>
+      </div>
+      <div style="margin-top:20px">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px">Repository instructions</div>
+        <div style="height:80px;border:1px solid var(--border-default);border-radius:8px;background:var(--bg-app);padding:12px;font-size:12px;color:var(--text-tertiary);line-height:18px"># AGENTS.md<br>Use npm, not yarn. Run tests before committing.</div>
+      </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;padding:20px 40px;border-top:1px solid var(--border-subtle)">
+        <div class="btn ghost">← Back</div>
+        <div style="margin-left:auto;display:flex;gap:10px">
+          <div class="btn secondary">Skip</div>
+          <div class="btn primary">Start working →</div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

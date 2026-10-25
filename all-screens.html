@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>otoki — all screens (43)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E1116;
+    --panel: #171B22;
+    --raised: #2A313B;
+    --text: #C9D1DB;
+    --muted: #8E97A5;
+    --accent: #8FA0C4;
+    --line: #2A313B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.5 Inter, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    padding: 18px 28px;
+    background: rgba(14,17,22,.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+  header .count {
+    font: 12px "IBM Plex Mono", ui-monospace, monospace; color: var(--muted);
+  }
+  header .spacer { flex: 1; }
+  header a {
+    color: var(--accent); text-decoration: none; font-size: 13px;
+  }
+  header a:hover { text-decoration: underline; }
+  .grid {
+    display: grid; gap: 20px; padding: 24px 28px 60px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  figure { margin: 0; }
+  .frame {
+    position: relative;
+    aspect-ratio: 1440 / 860;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--panel);
+  }
+  .frame img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    object-position: top left;
+  }
+  /* The live screen replaces the thumbnail on hover. It is created on
+     demand — 43 iframes loading 170 KB each would stall the page. */
+  .frame iframe {
+    position: absolute; inset: 0;
+    width: 1440px; height: 860px; border: 0;
+    transform-origin: top left;
+    pointer-events: none;
+    display: none;
+  }
+  figure:hover .frame iframe { display: block; }
+  figcaption {
+    display: flex; align-items: baseline; gap: 8px;
+    margin-top: 8px;
+  }
+  .name {
+    color: var(--text); font-size: 13px; font-weight: 500;
+    text-decoration: none;
+  }
+  .name:hover { color: var(--accent); }
+  .meta {
+    font: 11px "IBM Plex Mono", ui-monospace, monospace; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>otoki — all screens</h1>
+    <span class="count">43 screens · 1440 × 860</span>
+    <span class="spacer"></span>
+    <a href="index.html">index</a>
+  </header>
+  <div class="grid">
+    <figure>
+      <div class="frame" data-screen="screens/00-primitives.html">
+        <img src="png/00-primitives.png" alt="00-primitives" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/00-primitives.html">00-primitives</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/01-chat.html">
+        <img src="png/01-chat.png" alt="01-chat" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/01-chat.html">01-chat</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/02-chat-empty.html">
+        <img src="png/02-chat-empty.png" alt="02-chat-empty" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/02-chat-empty.html">02-chat-empty</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/03-chat-plan-approval.html">
+        <img src="png/03-chat-plan-approval.png" alt="03-chat-plan-approval" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/03-chat-plan-approval.html">03-chat-plan-approval</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/04-chat-waiting-approval.html">
+        <img src="png/04-chat-waiting-approval.png" alt="04-chat-waiting-approval" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/04-chat-waiting-approval.html">04-chat-waiting-approval</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/04-overlays.html">
+        <img src="png/04-overlays.png" alt="04-overlays" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/04-overlays.html">04-overlays</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/05-chat-goal-running.html">
+        <img src="png/05-chat-goal-running.png" alt="05-chat-goal-running" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/05-chat-goal-running.html">05-chat-goal-running</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/06-chat-stopped.html">
+        <img src="png/06-chat-stopped.png" alt="06-chat-stopped" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/06-chat-stopped.html">06-chat-stopped</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/06-output.html">
+        <img src="png/06-output.png" alt="06-output" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/06-output.html">06-output</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/07-chat-failed-message.html">
+        <img src="png/07-chat-failed-message.png" alt="07-chat-failed-message" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/07-chat-failed-message.html">07-chat-failed-message</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/08-delivery.html">
+        <img src="png/08-delivery.png" alt="08-delivery" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/08-delivery.html">08-delivery</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/08-diff-review.html">
+        <img src="png/08-diff-review.png" alt="08-diff-review" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/08-diff-review.html">08-diff-review</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/09-tools-files.html">
+        <img src="png/09-tools-files.png" alt="09-tools-files" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/09-tools-files.html">09-tools-files</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/09-wsnav.html">
+        <img src="png/09-wsnav.png" alt="09-wsnav" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/09-wsnav.html">09-wsnav</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/10-navprim.html">
+        <img src="png/10-navprim.png" alt="10-navprim" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/10-navprim.html">10-navprim</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/10-tools-terminal.html">
+        <img src="png/10-tools-terminal.png" alt="10-tools-terminal" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/10-tools-terminal.html">10-tools-terminal</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/11-lists.html">
+        <img src="png/11-lists.png" alt="11-lists" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/11-lists.html">11-lists</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/11-tools-browser.html">
+        <img src="png/11-tools-browser.png" alt="11-tools-browser" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/11-tools-browser.html">11-tools-browser</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/12-onboarding.html">
+        <img src="png/12-onboarding.png" alt="12-onboarding" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/12-onboarding.html">12-onboarding</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/12-tools-pull-request.html">
+        <img src="png/12-tools-pull-request.png" alt="12-tools-pull-request" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/12-tools-pull-request.html">12-tools-pull-request</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/13-tools-plan.html">
+        <img src="png/13-tools-plan.png" alt="13-tools-plan" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/13-tools-plan.html">13-tools-plan</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/14-checks.html">
+        <img src="png/14-checks.png" alt="14-checks" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/14-checks.html">14-checks</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/14-tools-agents.html">
+        <img src="png/14-tools-agents.png" alt="14-tools-agents" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/14-tools-agents.html">14-tools-agents</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/15-tools-activity.html">
+        <img src="png/15-tools-activity.png" alt="15-tools-activity" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/15-tools-activity.html">15-tools-activity</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/16-checks.html">
+        <img src="png/16-checks.png" alt="16-checks" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/16-checks.html">16-checks</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/17-approval-sheet.html">
+        <img src="png/17-approval-sheet.png" alt="17-approval-sheet" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/17-approval-sheet.html">17-approval-sheet</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/18-workspaces.html">
+        <img src="png/18-workspaces.png" alt="18-workspaces" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/18-workspaces.html">18-workspaces</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/19-history.html">
+        <img src="png/19-history.png" alt="19-history" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/19-history.html">19-history</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/20-command-center.html">
+        <img src="png/20-command-center.png" alt="20-command-center" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/20-command-center.html">20-command-center</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/21-onboarding-repository.html">
+        <img src="png/21-onboarding-repository.png" alt="21-onboarding-repository" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/21-onboarding-repository.html">21-onboarding-repository</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/22-onboarding-runtime.html">
+        <img src="png/22-onboarding-runtime.png" alt="22-onboarding-runtime" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/22-onboarding-runtime.html">22-onboarding-runtime</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/23-onboarding-model.html">
+        <img src="png/23-onboarding-model.png" alt="23-onboarding-model" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/23-onboarding-model.html">23-onboarding-model</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/24-onboarding-preferences.html">
+        <img src="png/24-onboarding-preferences.png" alt="24-onboarding-preferences" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/24-onboarding-preferences.html">24-onboarding-preferences</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/25-settings-providers.html">
+        <img src="png/25-settings-providers.png" alt="25-settings-providers" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/25-settings-providers.html">25-settings-providers</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/26-settings-permissions.html">
+        <img src="png/26-settings-permissions.png" alt="26-settings-permissions" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/26-settings-permissions.html">26-settings-permissions</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/27-settings-mcp.html">
+        <img src="png/27-settings-mcp.png" alt="27-settings-mcp" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/27-settings-mcp.html">27-settings-mcp</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/28-settings-billing.html">
+        <img src="png/28-settings-billing.png" alt="28-settings-billing" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/28-settings-billing.html">28-settings-billing</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/29-agents-list.html">
+        <img src="png/29-agents-list.png" alt="29-agents-list" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/29-agents-list.html">29-agents-list</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/30-agent-detail.html">
+        <img src="png/30-agent-detail.png" alt="30-agent-detail" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/30-agent-detail.html">30-agent-detail</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/31-schedules.html">
+        <img src="png/31-schedules.png" alt="31-schedules" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/31-schedules.html">31-schedules</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/32-worktrees.html">
+        <img src="png/32-worktrees.png" alt="32-worktrees" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/32-worktrees.html">32-worktrees</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/33-merge-queue.html">
+        <img src="png/33-merge-queue.png" alt="33-merge-queue" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/33-merge-queue.html">33-merge-queue</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <div class="frame" data-screen="screens/34-error.html">
+        <img src="png/34-error.png" alt="34-error" loading="lazy">
+      </div>
+      <figcaption>
+        <a class="name" href="screens/34-error.html">34-error</a>
+        <span class="meta">1440×860</span>
+      </figcaption>
+    </figure>
+  </div>
+<script>
+  // Swap the static thumbnail for the live screen while the pointer is
+  // over it. The iframe is built on first hover and then reused.
+  (function () {
+    var SCALE = 300 / 1440;
+    document.querySelectorAll('.frame').forEach(function (frame) {
+      var iframe = null;
+      frame.addEventListener('mouseenter', function () {
+        if (!iframe) {
+          iframe = document.createElement('iframe');
+          iframe.src = frame.dataset.screen;
+          iframe.scrolling = 'no';
+          iframe.style.transform = 'scale(' + SCALE + ')';
+          frame.appendChild(iframe);
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>

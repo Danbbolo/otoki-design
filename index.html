@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>otoki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E1116; --panel: #171B22; --raised: #2A313B;
+    --text: #C9D1DB; --muted: #8E97A5; --accent: #8FA0C4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 48px 40px;
+    background: var(--bg); color: var(--text);
+    font: 14px/1.5 Inter, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  header { max-width: 1180px; margin: 0 auto 36px; }
+  h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; }
+  p { margin: 0; color: var(--muted); max-width: 60ch; }
+  .hint {
+    margin-top: 18px; padding: 12px 16px;
+    background: var(--panel); border: 1px solid var(--raised);
+    border-radius: 8px; color: var(--muted); font-size: 13px;
+  }
+  .hint b { color: var(--accent); font-weight: 600; }
+  .grid {
+    max-width: 1180px; margin: 0 auto;
+    display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
+  .card {
+    display: flex; flex-direction: column; gap: 3px;
+    padding: 14px 16px;
+    background: var(--panel); border: 1px solid var(--raised);
+    border-radius: 8px; text-decoration: none;
+    transition: border-color .12s, background .12s;
+  }
+  .card:hover { border-color: var(--accent); background: var(--raised); }
+  .name { color: var(--text); font-weight: 500; }
+  .meta { color: var(--muted); font-size: 12px; font-family: "IBM Plex Mono", ui-monospace, monospace; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>otoki</h1>
+    <p>43 screens. The design is the source — edit <code>preview/tokens.css</code> and every screen follows.</p>
+    <div class="hint">
+      <a href="all-screens.html"><b>See all 43 screens at once →</b></a>
+    </div>
+  </header>
+  <div class="grid">
+      <a class="card" href="screens/00-primitives">
+        <span class="name">00-primitives</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/01-chat">
+        <span class="name">01-chat</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/02-chat-empty">
+        <span class="name">02-chat-empty</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/03-chat-plan-approval">
+        <span class="name">03-chat-plan-approval</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/04-chat-waiting-approval">
+        <span class="name">04-chat-waiting-approval</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/04-overlays">
+        <span class="name">04-overlays</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/05-chat-goal-running">
+        <span class="name">05-chat-goal-running</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/06-chat-stopped">
+        <span class="name">06-chat-stopped</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/06-output">
+        <span class="name">06-output</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/07-chat-failed-message">
+        <span class="name">07-chat-failed-message</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/08-delivery">
+        <span class="name">08-delivery</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/08-diff-review">
+        <span class="name">08-diff-review</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/09-tools-files">
+        <span class="name">09-tools-files</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/09-wsnav">
+        <span class="name">09-wsnav</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/10-navprim">
+        <span class="name">10-navprim</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/10-tools-terminal">
+        <span class="name">10-tools-terminal</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/11-lists">
+        <span class="name">11-lists</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/11-tools-browser">
+        <span class="name">11-tools-browser</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/12-onboarding">
+        <span class="name">12-onboarding</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/12-tools-pull-request">
+        <span class="name">12-tools-pull-request</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/13-tools-plan">
+        <span class="name">13-tools-plan</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/14-checks">
+        <span class="name">14-checks</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/14-tools-agents">
+        <span class="name">14-tools-agents</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/15-tools-activity">
+        <span class="name">15-tools-activity</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/16-checks">
+        <span class="name">16-checks</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/17-approval-sheet">
+        <span class="name">17-approval-sheet</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/18-workspaces">
+        <span class="name">18-workspaces</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/19-history">
+        <span class="name">19-history</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/20-command-center">
+        <span class="name">20-command-center</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/21-onboarding-repository">
+        <span class="name">21-onboarding-repository</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/22-onboarding-runtime">
+        <span class="name">22-onboarding-runtime</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/23-onboarding-model">
+        <span class="name">23-onboarding-model</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/24-onboarding-preferences">
+        <span class="name">24-onboarding-preferences</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/25-settings-providers">
+        <span class="name">25-settings-providers</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/26-settings-permissions">
+        <span class="name">26-settings-permissions</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/27-settings-mcp">
+        <span class="name">27-settings-mcp</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/28-settings-billing">
+        <span class="name">28-settings-billing</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/29-agents-list">
+        <span class="name">29-agents-list</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/30-agent-detail">
+        <span class="name">30-agent-detail</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/31-schedules">
+        <span class="name">31-schedules</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/32-worktrees">
+        <span class="name">32-worktrees</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/33-merge-queue">
+        <span class="name">33-merge-queue</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+      <a class="card" href="screens/34-error">
+        <span class="name">34-error</span>
+        <span class="meta">1440 × 860</span>
+      </a>
+  </div>
+</body>
+</html>
